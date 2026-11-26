@@ -50,6 +50,9 @@ export default async function ZhHansCurrentCaseCorrectionsPage({ params }: Props
       <section className={styles.correctionStatus}>
         <h2>{copy.recordStatus}</h2>
         <p>{record.correctionHistory.statusCopy}</p>
+        {record.correctionHistory.entries.map(entry => <p key={entry.date}>
+          <time dateTime={entry.date}>{formatLocalizedDate(entry.date, "zh-Hans")}</time> · {entry.summary}
+        </p>)}
       </section>
 
       <p className={styles.pageDek}>

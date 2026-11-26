@@ -10,26 +10,27 @@ import {
   validateModuleAuthoringRecord,
 } from "@/lib/modules/authoring-validation"
 import {
-  MODULE_AUTHORING_MANIFESTS,
   MODULE_AUTHORING_RECORDS,
+  acceptsModuleCompletions,
+  ARCHIVED_BETA_RECORDS,
   getModuleAuthoringRecord,
 } from "@/lib/modules/manifests"
 import { modules } from "@/lib/modules/framework"
 import { MODULE_SLUGS } from "@/lib/modules/types"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getLatestModuleVersion } from "@/lib/modules/versions"
 // Node's strip-types runtime requires the explicit .mts extension.
 // @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
 import { matchesCanonicalManifestFingerprint, validateRegisteredModuleAuthoring } from "@/scripts/validate-module-authoring.mts"
 
 const referenceDate = "2026-08-21T00:00:00Z"
 
-test("Security and Technology are public-beta legacy adapters with exact decisions", () => {
+test("archived Security and Technology beta manifests retain their original exact decisions", () => {
   assert.deepEqual(
-    MODULE_AUTHORING_MANIFESTS.map((manifest) => manifest.slug),
+    ARCHIVED_BETA_RECORDS.map(({ manifest }) => manifest.slug),
     [...MODULE_SLUGS],
   )
   assert.deepEqual(
-    MODULE_AUTHORING_RECORDS.map((record) => record.definition),
+    ARCHIVED_BETA_RECORDS.map((record) => record.definition),
     modules,
   )
   assert.equal(getModuleAuthoringRecord("economic-statecraft"), null)
@@ -37,8 +38,8 @@ test("Security and Technology are public-beta legacy adapters with exact decisio
   assert.equal(getModuleAuthoringRecord("constructor"), null)
   assert.equal(getModuleAuthoringRecord("__proto__"), null)
 
-  for (const record of MODULE_AUTHORING_RECORDS) {
-    const current = getCurrentModuleVersion(record.definition.slug)
+  for (const record of ARCHIVED_BETA_RECORDS) {
+    const current = getLatestModuleVersion(record.definition.slug)
     assert.deepEqual(
       validateModuleAuthoringRecord(record, current, { referenceDate }),
       { ok: true, issues: [] },
@@ -70,21 +71,34 @@ test("Security and Technology are public-beta legacy adapters with exact decisio
   }
 
   assert.equal(
-    MODULE_AUTHORING_RECORDS[0].manifest.releaseDecision?.decisionPath.includes(
+    ARCHIVED_BETA_RECORDS[0].manifest.releaseDecision?.decisionPath.includes(
       "V5_BETA_RELEASE_DECISION",
     ),
     true,
   )
   assert.equal(
-    JSON.stringify(MODULE_AUTHORING_RECORDS[0].manifest.releaseDecision).includes(
+    JSON.stringify(ARCHIVED_BETA_RECORDS[0].manifest.releaseDecision).includes(
       "V4_CONTRACT",
     ),
     false,
   )
 })
 
+test("withdrawn tuples support historical replay only and cannot register for public completions", () => {
+  for (const { definition, manifest } of MODULE_AUTHORING_RECORDS) {
+    assert.equal(getModuleAuthoringRecord(definition.slug)?.manifest, manifest)
+    assert.equal(acceptsModuleCompletions(definition.slug), false)
+    assert.equal(manifest.releaseState, "withdrawn")
+    assert.deepEqual(manifest.versions, { manifest: 1, questionBank: definition.slug === "security" ? 4 : 3, scoring: 2, resultCopy: 1 })
+    assert.equal(manifest.releaseDecision, undefined)
+    const registration = validateModuleAuthoringRecord({ definition, manifest }, { bankVersion: manifest.versions.questionBank, scoringVersion: manifest.versions.scoring })
+    assert.ok(!registration.ok && registration.issues.some(issue => issue.code === "registration.non-public"))
+    assert.ok(matchesCanonicalManifestFingerprint(manifest))
+  }
+})
+
 test("legacy-adapter equality proves compatibility but keeps detached metadata", () => {
-  for (const { manifest, definition } of MODULE_AUTHORING_RECORDS) {
+  for (const { manifest, definition } of ARCHIVED_BETA_RECORDS) {
     assert.deepEqual(manifest.axes, definition.axes)
     assert.deepEqual(manifest.lanes, definition.lanes)
     assert.equal(manifest.resultCopy.title, definition.title)
@@ -99,7 +113,7 @@ test("legacy-adapter equality proves compatibility but keeps detached metadata",
 })
 
 test("registered manifest files, scripts, calibration, and decisions are real contained files", () => {
-  for (const { manifest } of MODULE_AUTHORING_RECORDS) {
+  for (const { manifest } of ARCHIVED_BETA_RECORDS) {
     assert.deepEqual(validateDomainModuleManifestPaths(manifest, process.cwd()), {
       ok: true,
       issues: [],
@@ -109,7 +123,7 @@ test("registered manifest files, scripts, calibration, and decisions are real co
 })
 
 test("public release validation requires a recognized, exact, unexpired decision", () => {
-  const source = MODULE_AUTHORING_RECORDS[0].manifest
+  const source = ARCHIVED_BETA_RECORDS[0].manifest
   for (const mutate of [
     (manifest: Record<string, unknown>) => delete manifest.releaseDecision,
     (manifest: Record<string, unknown>) => {
@@ -145,7 +159,7 @@ test("public release validation requires a recognized, exact, unexpired decision
 })
 
 test("public-beta and shipping states reject placeholders and incomplete gates", () => {
-  const source = MODULE_AUTHORING_RECORDS[1].manifest
+  const source = ARCHIVED_BETA_RECORDS[1].manifest
   const mutations = [
     (manifest: Record<string, unknown>) => {
       ;(manifest.resultCopy as Record<string, unknown>).title = "Draft title"
@@ -173,7 +187,7 @@ test("public-beta and shipping states reject placeholders and incomplete gates",
 })
 
 test("manifest claim drift fails its digest and cannot silently update the fixture", () => {
-  const source = MODULE_AUTHORING_RECORDS[1].manifest
+  const source = ARCHIVED_BETA_RECORDS[1].manifest
   const drifted = structuredClone(source)
   drifted.axes[0].label = "Semantically drifted label"
   assert.notEqual(computeManifestFingerprint(drifted), source.manifestFingerprint)
@@ -203,7 +217,7 @@ test("hook symlinks and paths outside the repository fail filesystem validation"
     symlinkPath,
   )
   try {
-    const symlinked = structuredClone(MODULE_AUTHORING_RECORDS[0].manifest)
+    const symlinked = structuredClone(ARCHIVED_BETA_RECORDS[0].manifest)
     symlinked.evidenceAuditHooks.evidence[0].path =
       `docs/module-authoring/hook-symlink-${process.pid}`
     const symlinkResult = validateDomainModuleManifestPaths(
@@ -217,7 +231,7 @@ test("hook symlinks and paths outside the repository fail filesystem validation"
       true,
     )
 
-    const escaped = structuredClone(MODULE_AUTHORING_RECORDS[0].manifest)
+    const escaped = structuredClone(ARCHIVED_BETA_RECORDS[0].manifest)
     escaped.evidenceAuditHooks.reviews[0].path = "/tmp/outside-review.md"
     assert.equal(
       validateDomainModuleManifestPaths(escaped, process.cwd()).ok,
@@ -229,14 +243,14 @@ test("hook symlinks and paths outside the repository fail filesystem validation"
 })
 
 test("registration rejects template/candidate manifests and runtime divergence", () => {
-  const source = MODULE_AUTHORING_RECORDS[0]
+  const source = ARCHIVED_BETA_RECORDS[0]
   for (const releaseState of ["template", "candidate"] as const) {
     const result = validateModuleAuthoringRecord(
       {
         definition: source.definition,
         manifest: { ...source.manifest, releaseState },
       },
-      getCurrentModuleVersion(source.definition.slug),
+      getLatestModuleVersion(source.definition.slug),
       { referenceDate },
     )
     assert.equal(result.ok, false)
@@ -251,7 +265,7 @@ test("registration rejects template/candidate manifests and runtime divergence",
   drifted.lanes[0].scoreKey = "missing-axis"
   const result = validateModuleAuthoringRecord(
     { definition: source.definition, manifest: drifted },
-    getCurrentModuleVersion(source.definition.slug),
+    getLatestModuleVersion(source.definition.slug),
     { referenceDate },
   )
   assert.equal(result.ok, false)

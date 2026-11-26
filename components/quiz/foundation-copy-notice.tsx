@@ -7,7 +7,12 @@ import { foundationDraftMatchesLocale } from "@/lib/foundation-draft-copy"
 
 export function FoundationCopyNotice({ session, locale, onRestart }: { session: QuizSession; locale: Locale; onRestart: () => void }) {
   const binding = session.foundationCopy
-  if (!binding || binding.status === "legacy-unknown" || (binding.status === "single-copy" && foundationDraftMatchesLocale(session, locale))) return null
+  if (!binding || binding.status === "legacy-unknown") {
+    if (!Object.keys(session.answers).length) return null
+    return <aside><h2>{locale === "zh-Hans" ? "这份草稿没有语言版本记录" : "The wording version of this draft is unknown"}</h2>
+      <p>{locale === "zh-Hans" ? "你仍可查看答案并生成结果。结果不会把某个版本的题目文字归于这些答案。" : "You can review the answers and generate a result. Its evidence will omit wording that cannot be verified."}</p></aside>
+  }
+  if (binding.status === "single-copy" && foundationDraftMatchesLocale(session, locale)) return null
   const zh = locale === "zh-Hans"
   const mismatch = binding?.status === "single-copy"
   const title = mismatch ? (zh ? "继续原语言的草稿" : "Keep the language of this draft") : (zh ? "无法识别草稿的文字版本" : "This draft's copy revision is unavailable")

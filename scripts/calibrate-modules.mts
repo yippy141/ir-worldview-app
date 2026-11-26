@@ -8,7 +8,7 @@ import {
   type ModuleModeCalibration,
 } from "@/lib/modules/calibration"
 import { modules } from "@/lib/modules/framework"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getLatestModuleVersion } from "@/lib/modules/versions"
 import {
   buildModuleAnalytics,
   getModuleQuestions,
@@ -54,7 +54,7 @@ type GeneratedCalibrations = Record<
 function generateModuleCalibrations(): GeneratedCalibrations {
   return Object.fromEntries(
     modules.map((moduleDefinition) => {
-      const currentVersion = getCurrentModuleVersion(moduleDefinition.slug)
+      const currentVersion = getLatestModuleVersion(moduleDefinition.slug)
       assert.equal(
         currentVersion.bankVersion,
         MODULE_CALIBRATION_SOURCE.bankVersions[moduleDefinition.slug],

@@ -80,9 +80,7 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
             {baselineScores
               ? (
                   <>
-                    Run a short scenario set from another actor&rsquo;s seat and
-                    compare it with your baseline. Contextual shifts save here
-                    beside the Foundation.
+                    Work through a scenario from another actor’s point of view. Then compare those choices with your Foundation result.
                   </>
                 )
               : "A resolvable Foundation result is required before a new contextual comparison can be created."}

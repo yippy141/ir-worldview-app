@@ -1,3 +1,4 @@
+import { ambiguousFoundationCopy } from "@/lib/results/foundation-result-heading"
 import Link from "next/link"
 import type { CSSProperties } from "react"
 import {
@@ -11,7 +12,7 @@ import {
 import {
   ARCHETYPE_MATRIX_CELLS,
   ARCHETYPE_MATRIX_LENSES,
-  activeMatrixCodes,
+
   type WorldviewMapBaseline,
 } from "@/lib/field/archetype-matrix"
 import { getArchetypePath } from "@/lib/archetypes"
@@ -80,8 +81,7 @@ function connectorStyle(connector: MatrixConnector): CSSProperties {
  * semantic list into the desktop 4 x 2 matrix.
  */
 export function ArchetypeMatrix({ baseline }: ArchetypeMatrixProps) {
-  const resolvedArchetype = baseline?.resolvedArchetype ?? null
-  const activeCodes = activeMatrixCodes(resolvedArchetype)
+  const activeCodes = baseline?.activeCellCodes ?? []
   const activeCodeSet = new Set(activeCodes)
   const connector = connectorFor(activeCodes)
   const blend = activeCodes.length === 2
@@ -238,6 +238,8 @@ function MatrixBaseline({
     )
   }
 
+  if (baseline.ambiguity) return <p id={MATRIX_BASELINE_ID}>{ambiguousFoundationCopy(baseline.ambiguity).title}</p>
+  if (!baseline.activeCellCodes.length) return <p id={MATRIX_BASELINE_ID}>Your restraint score is at the midpoint. Neither posture row is highlighted.</p>
   const archetype = baseline.resolvedArchetype
   const isBlend = "archetypes" in archetype
 

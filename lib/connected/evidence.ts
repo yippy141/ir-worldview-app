@@ -1,8 +1,8 @@
+import { linkedFoundationTitle } from "@/lib/results/foundation-result-heading"
 import { resolveFoundationPayload } from "@/lib/share"
 import { resolveAiPayload, aiPayloadToAxisScores } from "@/lib/ai-governance-share"
 import { resolveModulePayload } from "@/lib/modules/framework"
 import { MODULE_SLUGS } from "@/lib/modules/types"
-import { traditionNounLabel } from "@/lib/worldview-config"
 import { DIMENSION_POLES } from "@/lib/results/dimension-bands"
 import { aiAxisPoles } from "@/lib/ai-governance-results"
 import { dimensionLabels } from "@/lib/quiz-schema"
@@ -48,7 +48,7 @@ export function evidenceFromToken(domain: Domain, token: string, exposure: Expos
     if (!r) return null
     const p = r.provenance
     provenance = { bank: p.instrumentVersion, scorer: p.scoringVersion, form: r.questionSet ? `${r.questionSet}:${r.targetedFamilyPair?.join("|") ?? ""}` : null, language: p.localeCopyVersion > 0 ? p.completionLocale : null, copy: p.localeCopyVersion || null, exposureSource: r.payload.v === 5 ? "issued" : "unknown" }
-    title = traditionNounLabel(r.result.familyKey)
+    title = linkedFoundationTitle(r)
     scores = r.dimensionScores
     labels = dimensionLabels
     poles = DIMENSION_POLES

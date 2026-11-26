@@ -18,6 +18,7 @@ export const approvedChinesePaths = [
 export type ApprovedChinesePath = (typeof approvedChinesePaths)[number]
 
 const approvedChineseDynamicPatterns = [
+  /^\/profile\/share\/[^/]+$/,
   /^\/results\/[^/]+$/,
   /^\/cases\/[^/]+(?:\/(?:sources|corrections))?$/,
   /^\/explore\/atlas\/[^/]+$/,
@@ -73,6 +74,7 @@ export function internalPath(pathname: string): string {
 export function isApprovedChinesePath(pathname: string): boolean {
   const normalized = internalPath(pathname)
   return (
+    normalized === "/quiz/review" ||
     (approvedChinesePaths as readonly string[]).includes(normalized) ||
     approvedChineseDynamicPatterns.some((pattern) => pattern.test(normalized))
   )

@@ -1,15 +1,14 @@
-import type { Archetype } from "@/lib/archetypes"
 import type { DimensionKey, DimensionScores } from "@/lib/types"
 import { positionBand, type ResultInterpretation } from "@/lib/results/interpretation"
 
 const explanations: Record<DimensionKey, [string, string, string]> = {
-  securityCompetition: ["Your recorded position gives reassurance and the possibility of cooperation more room than enduring rivalry.", "The rivalry score alone does not establish whether cooperation can change the relationship.", "Your recorded position treats enduring rivalry as a constraint that favorable intentions alone cannot remove."],
-  institutions: ["Your recorded position gives power more weight than the independent force of rules.", "The institutional score does not establish how far rules can bind powerful actors.", "Your recorded position gives institutions a role in changing incentives, beyond reflecting existing power."],
-  domesticFilters: ["Your recorded position emphasizes system pressures over differences in domestic politics.", "The domestic-politics score does not settle how differently states respond to the same external pressure.", "Your recorded position gives domestic coalitions and political institutions a role in explaining different responses to the same external pressure."],
-  normsIdentity: ["Your recorded position gives material interests more weight than legitimacy and identity in explaining behavior.", "The legitimacy score does not settle whether recognition changes interests or mainly expresses them.", "Your recorded position treats recognition and legitimacy as forces that can shape interests themselves."],
-  politicalEconomy: ["Your recorded position gives security and diplomacy more weight than market structure and dependence.", "The political-economy score does not settle whether economic structure or diplomatic choice does more explanatory work.", "Your recorded position looks to control of markets, resources and dependencies as a source of political power."],
-  restraint: ["The strategic position leans toward applying advantage when an opening appears.", "The strategic position leaves the boundary between applying pressure and setting limits unresolved.", "The strategic position leans toward setting limits on pressure and avoiding overextension."],
-  orderJustice: ["The normative position gives justice claims more room to override established order.", "The normative position leaves the threshold for overriding established order unresolved.", "The normative position gives order and sovereignty priority over attempts to impose justice from outside."],
+  securityCompetition: ["On rivalry, your score leans toward reassurance. A rival that keeps a promise can give the other side a reason to cooperate.", "The rivalry score leaves open how much reassurance can achieve.", "Your rivalry score gives weight to military preparations even when relations improve."],
+  institutions: ["Your score on agreements points to enforcement. A treaty lasts while its members have the power to uphold it.", "The score on agreements leaves open how far rules can bind a powerful state.", "Your score on agreements points to monitoring. When treaty partners can spot cheating, keeping a promise can pay even when trust is thin."],
+  domesticFilters: ["Your domestic-politics score points to pressures that governments face abroad, even when different parties hold office.", "The domestic-politics score leaves open how much a change of government matters.", "Your domestic-politics score points to differences at home. A change in the governing coalition can alter foreign policy even when the threat abroad stays the same."],
+  normsIdentity: ["Your score on identity gives greater weight to material interests in explaining what states do.", "The identity score leaves open whether diplomatic recognition changes a state’s interests.", "Your score on identity gives diplomatic standing a role in shaping what governments want."],
+  politicalEconomy: ["Your economic score gives greater weight to bargaining and security interests in explaining what states do.", "The economic score leaves open how much control of markets shapes a government’s choices.", "Your economic score points to a source of bargaining power. A government that controls a market or a crucial supply can limit the choices open to other countries."],
+  restraint: ["On strategy, the score leans toward using an advantage while it lasts.", "The restraint score leaves open when to press an advantage and when to stop.", "On strategy, the score leans toward limiting commitments that could stretch a country too thin."],
+  orderJustice: ["On justice, the score gives weight to protecting people even when doing so would challenge a state’s sovereignty.", "The justice score leaves open when protecting people should outweigh respect for a state’s sovereignty.", "On justice, the score gives greater weight to sovereignty and the risks of outside intervention."],
 }
 
 export function foundationAxisReading(key: DimensionKey, score: number) {
@@ -44,40 +43,11 @@ export function buildFoundationInterpretation(scores: DimensionScores): ResultIn
   }
   const middle = positionBand(scores[first]) === "middle"
   return { kind: "model-interpretation", summary,
-    scope: "This reading combines the reported positions. It does not identify particular answers or establish a lasting personal trait.",
+    scope: "This interpretation combines the reported positions. It does not identify particular answers or establish a lasting personal trait.",
     example: { kind: "illustrative-implication", title: "An arms-control bargain under pressure",
       facts: "Suppose two rivals offer reciprocal inspections at declared facilities. Undeclared sites remain possible, and compliance requires a real concession from each side.",
       application: `${middle ? "The scores do not establish a dominant explanation here. One live argument is that inspections change incentives; another is that they work only while the strategic bargain holds." : lenses[first].application} ${scores.restraint >= 5 ? "The restraint position adds a reason to preserve a limited bargain even if it leaves some advantage unused." : scores.restraint <= 3 ? "The advantage-oriented position adds a reason to demand stronger terms while bargaining power is available." : "The strategic score does not settle how hard to press for better terms."}`,
       rival: middle ? "A middle score may combine opposing answers. It cannot show that both arguments would receive equal weight in this case." : lenses[first].rival,
       change: "The argument changes if inspections reveal violations soon enough to matter, or if the concession materially changes one side's ability to coerce the other." },
     followUp: { kind: "follow-up", question: "Would you accept verified limits at declared sites if neither side could rule out undeclared facilities? Which concession would make you refuse?" } }
-}
-
-const archetypeOpenings: Record<Archetype["code"], string> = {
-  "P+": "You look for the moment when power can change the terms of a contest. You are ready to use an opening before rivals close it.",
-  "P-": "You watch how the balance of power shapes your room to act. You preserve leverage by limiting commitments and avoiding contests that could exhaust it.",
-  "R+": "You see rules and institutions as tools for shaping international politics. You want agreements with enough authority to turn shared commitments into action.",
-  "R-": "You build order through negotiated rules and repeated cooperation. You favor bargains that rivals can keep, with limits that help prevent escalation.",
-  "M+": "You see legitimacy and shared beliefs as sources of political change. You are willing to challenge accepted practices when persuasion and collective action can reshape them.",
-  "M-": "You look for the meanings and identities behind a disagreement. You favor dialogue and mutual recognition that let people cooperate without demanding that they become alike.",
-  "S+": "You trace political power through ownership, production and control of resources. You see deliberate intervention as a way to reshape dependence and redirect economic gains.",
-  "S-": "You look beneath diplomatic bargaining to the dependencies that limit a country's choices. You seek room to maneuver by reducing exposure to those who control finance, markets and essential resources.",
-}
-
-const supportingReadings: Record<DimensionKey, [string, string, string]> = {
-  securityCompetition: ["you leave room for reassurance to ease rivalry", "you weigh rivalry alongside opportunities for cooperation", "you treat persistent rivalry as a constraint on what this approach can achieve"],
-  institutions: ["you ask who has the power to uphold an agreement", "you weigh formal rules alongside the power behind them", "you look to institutions to make commitments credible"],
-  domesticFilters: ["you look first to external pressures on governments", "you weigh domestic politics alongside external pressures", "you ask which domestic coalitions and institutions turn those pressures into policy"],
-  normsIdentity: ["you test political claims against material interests", "you consider both interests and questions of legitimacy", "you ask how identity and recognition shape what governments want"],
-  politicalEconomy: ["you give diplomatic and security choices room to change outcomes", "you weigh economic dependence alongside diplomatic choices", "you follow control of markets and resources to understand whose choices are constrained"],
-  restraint: ["you look for openings to apply pressure", "you weigh opportunities against the costs of pressure", "you look for limits that prevent overextension"],
-  orderJustice: ["you leave room for justice claims to challenge established order", "you weigh justice claims against the value of order", "you give sovereignty and established order priority"],
-}
-
-/** Hero prose uses the already resolved identity; it never assigns a family or posture. */
-export function buildFoundationHero(scores: DimensionScores, code: Archetype["code"]) {
-  const dimensions: DimensionKey[] = ["securityCompetition", "institutions", "domesticFilters", "normsIdentity", "politicalEconomy"]
-  const supporting = [...dimensions].sort((a, b) => Math.abs(scores[b] - 4) - Math.abs(scores[a] - 4))[0]
-  const band = positionBand(scores[supporting])
-  return `${archetypeOpenings[code]} Within that approach, ${supportingReadings[supporting][band === "low" ? 0 : band === "high" ? 2 : 1]}.`
 }

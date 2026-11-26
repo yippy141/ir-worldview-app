@@ -81,6 +81,7 @@ export type ModuleEvidenceStatus = (typeof MODULE_EVIDENCE_STATUSES)[number]
 export const MODULE_RELEASE_STATES = [
   "template",
   "candidate",
+  "withdrawn",
   "public-beta",
   "shipping",
 ] as const

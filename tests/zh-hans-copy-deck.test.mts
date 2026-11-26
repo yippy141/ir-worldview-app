@@ -145,13 +145,12 @@ test("Current Case translations preserve canonical records and source identity",
       canonical.sensitiveWording.map((item) => item.term),
     )
     assert.deepEqual(translated.editorialReview, canonical.editorialReview)
-    assert.deepEqual(translated.correctionHistory, {
-      status: "none-recorded",
-      statusCopy: "目前没有公开更正记录。",
-      lastEditorialUpdate: canonical.updatedAt,
-      evidenceThrough: canonical.evidenceWindow.end,
-      entries: [],
-    })
+    const corrections = canonical.corrections ?? []
+    assert.equal(translated.correctionHistory.status, corrections.length ? "corrected" : "none-recorded")
+    assert.equal(translated.correctionHistory.lastEditorialUpdate, canonical.updatedAt)
+    assert.equal(translated.correctionHistory.evidenceThrough, canonical.evidenceWindow.end)
+    assert.deepEqual(translated.correctionHistory.entries.map(entry => entry.date), corrections.map(entry => entry.date))
+    for (const entry of translated.correctionHistory.entries) assert.match(entry.summary, /[㐀-鿿]/u)
 
     const publicRecord = toZhHansCurrentCasePublicRecord(translated)
     assert.deepEqual(ids(publicRecord.reasoningTags), ids(canonical.reasoningTags))

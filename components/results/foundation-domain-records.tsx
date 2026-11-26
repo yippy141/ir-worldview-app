@@ -14,7 +14,8 @@ type DomainRecord = {
   key: string
   label: string
   record: ModuleSnapshot | ProfileStore["aiGovernance"] | null
-  startHref: string
+  href: string
+  linkText: string
 }
 
 export function FoundationDomainRecords() {
@@ -37,25 +38,28 @@ export function FoundationDomainRecords() {
       key: "security",
       label: "Security",
       record: profile.modules.security ?? null,
-      startHref: "/modules/security",
+      href: "/modules/security",
+      linkText: "Security questionnaire status",
     },
     {
       key: "technology",
       label: "Technology",
       record: profile.modules.technology ?? null,
-      startHref: "/modules/technology",
+      href: "/modules/technology",
+      linkText: "Technology questionnaire status",
     },
     {
       key: "ai-governance",
       label: "AI Governance",
       record: profile.aiGovernance,
-      startHref: "/ai",
+      href: "/ai",
+      linkText: "Try AI Governance",
     },
   ]
 
   return (
     <div className={styles.domainRecords} aria-live="polite">
-      {records.map(({ key, label, record, startHref }) => (
+      {records.map(({ key, label, record, href, linkText }) => (
         <article key={key} className={styles.domainRecord}>
           <h3>{label}</h3>
           {!ready ? (
@@ -67,12 +71,12 @@ export function FoundationDomainRecords() {
                   ? record.headline
                   : record.archetypeLabel}
               </p>
-              <Link href={record.resultPath}>Open the saved {label} record</Link>
+              <Link href={record.resultPath}>Open your saved {label} result</Link>
             </>
           ) : (
             <>
-              <p>No saved {label} record is available on this device.</p>
-              <Link href={startHref}>Open {label}</Link>
+              <p>No {label} result saved here.</p>
+              <Link href={href}>{linkText}</Link>
             </>
           )}
         </article>

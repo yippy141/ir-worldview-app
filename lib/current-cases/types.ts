@@ -178,6 +178,7 @@ export type CurrentCase = {
   freshnessStatus: CurrentCaseFreshnessStatus
   cadence: CurrentCaseCadence
   evidenceWindow: CurrentCaseEvidenceWindow
+  corrections?: { date: string; summary: string }[]
   /** The public case briefing. Publication requires 250–450 words. */
   briefing: string
   actors: string[]

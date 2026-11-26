@@ -10,7 +10,7 @@ export type FoundationQuizUiCopy = {
   eyebrow: string
   title: string
   adaptedBeta: string
-  setSummary: Readonly<Record<FoundationQuestionSet, string>>
+  setSummary: Readonly<Record<FoundationQuestionSet, (count: number) => string>>
   setLabels: Readonly<Record<FoundationQuestionSet, string>>
   answered: (answered: number, total: number) => string
   progressAria: string
@@ -89,10 +89,10 @@ export const zhHansFoundationQuizUi = {
   title: "基础问卷",
   adaptedBeta: "简体中文改编测试版",
   setSummary: {
-    core: "14 道核心题 · 约需 6 至 8 分钟 · 完成后先生成暂定结果",
-    targetedExtended: "5 道跟进题 · 检验最相邻的两个模型传统之间的区别",
-    fullExtended: "54 道附加题 · 已保存的题组，包含研究比较题",
-    baselineExtended: "42 道附加题 · 基础扩展题组，不含研究比较题",
+    core: (count) => `${count} 道核心题 · 完成后先生成暂定结果`,
+    targetedExtended: (count) => `${count} 道跟进题 · 检验最相邻的两个模型传统之间的区别`,
+    fullExtended: (count) => `${count} 道附加题 · 已保存的题组，包含研究比较题`,
+    baselineExtended: (count) => `${count} 道附加题 · 基础扩展题组，不含研究比较题`,
   },
   setLabels: {
     core: "核心题组",

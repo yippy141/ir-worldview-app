@@ -1,3 +1,4 @@
+import { acceptsModuleCompletions } from "@/lib/modules/manifests"
 import { expect, test, type Locator, type Page } from "@playwright/test"
 
 function questionFrame(page: Page): Locator {
@@ -22,12 +23,21 @@ async function expectFocusedHeadingBelowStickyHeader(page: Page) {
   expect(headingBox!.y).toBeGreaterThanOrEqual(headerBox!.y + headerBox!.height - 1)
 }
 
-test("Focus Area keeps one reversible question on screen and restores position", async ({
+test("Security entrance reflows at 320px and has a keyboard action", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 900 })
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto("/modules/security")
+  if (!acceptsModuleCompletions("security")) {
+    await expect(page.getByRole("heading", { name: "Security questionnaire paused" })).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320)
+    const exercise = page.getByRole("link", { name: "Try the decision exercise" })
+    await exercise.focus()
+    await page.keyboard.press("Enter")
+    await expect(page).toHaveURL(/decisions\/who-gets-to-verify$/)
+    return
+  }
   await page.getByRole("button", { name: "Start questions", exact: true }).click()
   await expect(page.getByRole("heading", { level: 1, name: /Security/ })).toBeVisible()
   expect(
@@ -54,8 +64,14 @@ test("Focus Area keeps one reversible question on screen and restores position",
   await expect(questionFrame(page).locator('button.option-card[aria-pressed="true"]')).toHaveCount(1)
 })
 
-test("Focus Area Back from the first question returns to the mode choice", async ({ page }) => {
+test("Security has a return path to the module index", async ({ page }) => {
   await page.goto("/modules/security")
+  if (!acceptsModuleCompletions("security")) {
+    await page.locator("main").getByRole("link", { name: "Security and Technology", exact: true }).click()
+    await expect(page).toHaveURL(/\/modules$/)
+    await expect(page.getByRole("link", { name: "Security questionnaire paused" })).toHaveAttribute("href", "/modules/security")
+    return
+  }
   await page.getByRole("button", { name: "Start questions", exact: true }).click()
   await expect(questionFrame(page).getByText(/^1 of \d+$/)).toBeVisible()
 
@@ -65,10 +81,17 @@ test("Focus Area Back from the first question returns to the mode choice", async
   await expect(page.getByRole("heading", { level: 1, name: "Security and Technology", exact: true })).toBeVisible()
 })
 
-test("Standard and Advanced Focus Area drafts survive mode switches independently", async ({
+test("Technology respects whether the two form modes can accept answers", async ({
   page,
 }) => {
   await page.goto("/modules/technology")
+  if (!acceptsModuleCompletions("technology")) {
+    await expect(page.getByRole("heading", { name: "Technology questionnaire paused" })).toBeVisible()
+    await expect(page.getByRole("combobox", { name: "Mode", exact: true })).toHaveCount(0)
+    await expect(page.getByRole("button", { name: "Start over", exact: true })).toHaveCount(0)
+    await expect(page.getByRole("link", { name: "Try the decision exercise" })).toHaveAttribute("href", "/decisions/who-gets-access")
+    return
+  }
   await page.getByRole("button", { name: "Start questions", exact: true }).click()
   await chooseFirstAnswer(page)
   await questionFrame(page).getByRole("button", { name: "Next", exact: true }).click()
@@ -99,10 +122,16 @@ test("Standard and Advanced Focus Area drafts survive mode switches independentl
   await expect(questionFrame(page).getByText(/^2 of \d+$/)).toBeVisible()
 })
 
-test("Focus Area requires a complete review before preserving the existing result tuple", async ({
+test("Security enforces the completion boundary and preserves Profile access", async ({
   page,
 }) => {
   await page.goto("/modules/security")
+  if (!acceptsModuleCompletions("security")) {
+    await expect(page.getByRole("button", { name: /^See Security result/ })).toHaveCount(0)
+    await page.locator("main").getByRole("link", { name: "your Profile" }).click()
+    await expect(page).toHaveURL(/\/profile$/)
+    return
+  }
   await page.getByRole("button", { name: "Start questions", exact: true }).click()
 
   for (let step = 0; step < 80; step += 1) {

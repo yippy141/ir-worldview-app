@@ -1,3 +1,4 @@
+import { classifyFoundationPresentation, type FoundationPresentation } from "@/lib/results/foundation-result-heading"
 import {
   normFromNormativeModifier,
   resolveArchetype,
@@ -11,6 +12,7 @@ import type { CanonicalFoundationResult } from "@/lib/scoring"
 import { toDisplayPosition } from "@/lib/results/position"
 
 export type ShareCardInput = {
+  presentation: FoundationPresentation
   archetype: Archetype | BlendArchetype
   norm: NormSuffix
   coordinates: { x: number; y: number }
@@ -35,6 +37,7 @@ export function parseFoundationShareCardRequest(
 export function buildFoundationShareCardInput(
   result: CanonicalFoundationResult,
   lowDifferentiationThreshold = LOW_DIFFERENTIATION_THRESHOLD,
+  currentForm = true,
 ): ShareCardInput {
   const archetype = resolveArchetype(result, lowDifferentiationThreshold)
   const coordinates = toDisplayPosition(
@@ -43,6 +46,7 @@ export function buildFoundationShareCardInput(
   )
 
   return {
+    presentation: classifyFoundationPresentation(result, lowDifferentiationThreshold, currentForm),
     archetype,
     norm: normFromNormativeModifier(result.normativeModifier),
     coordinates,

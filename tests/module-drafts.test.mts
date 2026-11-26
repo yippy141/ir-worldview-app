@@ -11,12 +11,12 @@ import {
   type ModuleDraftContext,
 } from "@/lib/modules/drafts"
 import { getModuleDefinition, getModuleQuestions, moduleAllowsSecondChoice } from "@/lib/modules/framework"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getLatestModuleVersion } from "@/lib/modules/versions"
 
 const now = Date.UTC(2026, 7, 24)
 const moduleDefinition = getModuleDefinition("security")
 if (!moduleDefinition) throw new Error("security module is required for draft tests")
-const version = getCurrentModuleVersion("security")
+const version = getLatestModuleVersion("security")
 
 function context(mode: "standard" | "analyst" = "standard"): ModuleDraftContext {
   return {

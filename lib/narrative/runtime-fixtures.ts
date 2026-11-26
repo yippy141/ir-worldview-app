@@ -2047,7 +2047,7 @@ function buildSocialOccurrences(
 
     const prefix = `social:${inputs.locale}:${inputs.caseId}`
     if (inputs.locale === "zh-Hans") {
-      const copy = buildZhHansFoundationResultSocialCopy(archetype, summary.text)
+      const copy = buildZhHansFoundationResultSocialCopy(archetype)
       occurrences.push(
         {
           id: `${prefix}:open-graph:title`,

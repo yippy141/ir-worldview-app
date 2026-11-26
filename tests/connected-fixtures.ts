@@ -3,7 +3,7 @@ import { buildFoundationSharePayload, encodePayload, PAYLOAD_DIMENSION_ORDER } f
 import { getCurrentAiGovernanceVersion } from "@/lib/ai-governance-versions"
 import { encodeAiPayload, aiAxisScoresToArray } from "@/lib/ai-governance-share"
 import { encodeModulePayload, resolveModulePayload } from "@/lib/modules/framework"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getLatestModuleVersion } from "@/lib/modules/versions"
 import { parseProfileStore } from "@/lib/profile-store"
 import { syntheticAnswers } from "@/tests/decision-exercises/fixtures"
 import type { DimensionScores } from "@/lib/types"
@@ -14,7 +14,7 @@ export function foundationToken(values = [5.8, 5.5, 3.2, 2.7, 4.6, 5.3, 3.8]) {
   return encodePayload(buildFoundationSharePayload(buildCanonicalFoundationResult(scores, "core"), "en", "core"))
 }
 export function moduleToken(slug: "security" | "technology", offset = 0, mode: "standard" | "analyst" = "standard") {
-  const v = getCurrentModuleVersion(slug)
+  const v = getLatestModuleVersion(slug)
   const answers = Object.fromEntries(v.runtime.getModuleQuestions(v.definition, mode).map((q, i) => [q.id, { primary: q.options[(i + offset) % q.options.length].id }]))
   return encodeModulePayload({ v: 3, bv: v.bankVersion, sv: v.scoringVersion, slug, mode, answers })
 }
@@ -34,5 +34,5 @@ export function syntheticProfile() {
   const token = encodePayload(buildFoundationSharePayload(result, "en", "core"))
   const ai = aiFixture()
   const base = { timestamp: 1800000000000, locale: "en", localeCopyVersion: 1 }
-  return { answers, token, profile: parseProfileStore(JSON.stringify({ v: 5, foundation: { ...base, mode: "standard", payload: token, familyKey: result.familyKey, runnerUpKey: result.runnerUpKey, dimensionScores: result.dimensionScores, strategyModifier: result.strategyModifier, normativeModifier: result.normativeModifier }, modules: Object.fromEntries((["security", "technology"] as const).map(slug => [slug, { ...base, slug, payload: moduleToken(slug), mode: "standard", scores: resolveModulePayload(moduleToken(slug))!.runtime.buildModuleResult(getCurrentModuleVersion(slug).definition, "standard", resolveModulePayload(moduleToken(slug))!.payload.answers).scores, laneScores: resolveModulePayload(moduleToken(slug))!.runtime.buildModuleAnalytics(getCurrentModuleVersion(slug).definition, "standard", resolveModulePayload(moduleToken(slug))!.payload.answers).laneScores, overlayDeltas: {}, instrumentVersion: slug === "technology" ? 3 : 5 }])), aiGovernance: { ...base, payload: ai.token, archetypeKey: ai.result.archetypeKey, riskLens: ai.result.riskLens, paceModifier: ai.result.paceModifier, geopoliticsModifier: ai.result.geopoliticsModifier, axisScores: ai.result.axisScores } })) }
+  return { answers, token, profile: parseProfileStore(JSON.stringify({ v: 5, foundation: { ...base, mode: "standard", payload: token, familyKey: result.familyKey, runnerUpKey: result.runnerUpKey, dimensionScores: result.dimensionScores, strategyModifier: result.strategyModifier, normativeModifier: result.normativeModifier }, modules: Object.fromEntries((["security", "technology"] as const).map(slug => [slug, { ...base, slug, payload: moduleToken(slug), mode: "standard", scores: resolveModulePayload(moduleToken(slug))!.runtime.buildModuleResult(getLatestModuleVersion(slug).definition, "standard", resolveModulePayload(moduleToken(slug))!.payload.answers).scores, laneScores: resolveModulePayload(moduleToken(slug))!.runtime.buildModuleAnalytics(getLatestModuleVersion(slug).definition, "standard", resolveModulePayload(moduleToken(slug))!.payload.answers).laneScores, overlayDeltas: {}, instrumentVersion: slug === "technology" ? 3 : 5 }])), aiGovernance: { ...base, payload: ai.token, archetypeKey: ai.result.archetypeKey, riskLens: ai.result.riskLens, paceModifier: ai.result.paceModifier, geopoliticsModifier: ai.result.geopoliticsModifier, axisScores: ai.result.axisScores } })) }
 }

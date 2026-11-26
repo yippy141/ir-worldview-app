@@ -17,7 +17,7 @@ import {
   type ModuleAnswers,
   type ModulePayload,
 } from "@/lib/modules/types"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getLatestModuleVersion } from "@/lib/modules/versions"
 
 function answersFor(moduleDefinition: (typeof modules)[number]) {
   return Object.fromEntries(
@@ -30,7 +30,7 @@ function answersFor(moduleDefinition: (typeof modules)[number]) {
 
 test("module payloads roundtrip through URL-safe base64 encoding", () => {
   const payloads: ModulePayload[] = modules.map((moduleDefinition) => {
-    const version = getCurrentModuleVersion(moduleDefinition.slug)
+    const version = getLatestModuleVersion(moduleDefinition.slug)
     return {
       v: 3,
       bv: version.bankVersion,

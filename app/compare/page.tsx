@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function ComparePage() {
   return <div className="wide-container reading-page">
     <DestinationLink destination="profile" />
-    <header className="article-header stack-sm"><h1>Compare results</h1><p>Bring one subject or a shared Profile. See where the supplied answers meet, where they differ, and what is worth discussing.</p></header>
+    <header className="article-header stack-sm"><h1>Compare results</h1><p>Paste two result links to compare the same subject. Start your conversation with the question where your scores differ most.</p></header>
     <ProfileCompare />
   </div>
 }

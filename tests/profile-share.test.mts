@@ -18,7 +18,7 @@ import {
   getModuleDefinition,
   getModuleQuestions,
 } from "@/lib/modules/framework"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getLatestModuleVersion } from "@/lib/modules/versions"
 import { getPerspectiveDefinition } from "@/lib/perspectives/catalog"
 import {
   encodePerspectivePayload,
@@ -53,7 +53,7 @@ assert.ok(resolvedFoundation, "expected canonical foundation payload to resolve 
 function buildCanonicalModuleFixture(slug: "security" | "technology") {
   const definition = getModuleDefinition(slug)
   assert.ok(definition)
-  const version = getCurrentModuleVersion(slug)
+  const version = getLatestModuleVersion(slug)
   const mode = "standard" as const
   const answers = Object.fromEntries(
     getModuleQuestions(definition, mode).map((question) => [

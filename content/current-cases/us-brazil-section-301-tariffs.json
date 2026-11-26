@@ -5,11 +5,12 @@
   "version": 1,
   "publicationStatus": "published",
   "launchRole": "archive",
-  "title": "U.S. Section 301 tariffs on Brazil and Brazil’s calibrated retaliation debate",
-  "dek": "A selective U.S. tariff package forces Brazil to choose between retaliation, domestic cushioning, negotiation, and a wider rules-based response.",
+  "title": "Brazil’s choice after the U.S. tariff announcement",
+  "dek": "Washington announced a 25% tariff on selected Brazilian goods. Should Brazil target U.S. firms, help its own exporters, or bargain for exemptions?",
   "category": "economic-statecraft",
   "publishedAt": "2026-07-17",
-  "updatedAt": "2026-07-17",
+  "updatedAt": "2026-11-22",
+  "corrections": [{"date": "2026-11-22", "summary": "We removed an unsupported attribution to Brookings about the legal durability of Section 301. The briefing now uses the Brazilian trade minister’s estimate of export coverage, as reported by Reuters in July."}],
   "asOf": "2026-07-17",
   "reviewDueAt": "2026-07-22",
   "freshnessStatus": "review-due",
@@ -18,7 +19,7 @@
     "start": "2026-06-26",
     "end": "2026-07-17"
   },
-  "briefing": "On 15–16 July 2026, the United States escalated a yearlong Section 301 investigation into Brazil by unveiling a new 25% tariff package on selected Brazilian imports, to take effect on 22 July. USTR’s formal case ties the action to digital trade, electronic payments, preferential tariffs, anti-corruption enforcement, intellectual property, ethanol market access, and illegal deforestation. Reuters and AP reporting indicate that the tariff package is substantial but selective: key exports such as beef, coffee, and aircraft-related items are exempt, while a broad range of other products, including ethanol, sugar, machinery, and furniture, are affected.\n\nThe timing matters. The administration is rebuilding tariff leverage after a legal defeat over broader emergency tariffs, and Brookings notes that Section 301 offers a narrower but more judicially durable route. Brazil has rejected the move as unjust and politically motivated, signalled possible retaliation under its reciprocity law, and reportedly considered measures such as limiting U.S. audiovisual operations or suspending some patents while avoiding across-the-board import tariffs that would hit Brazilian consumers directly. At the same time, Brazil has been expanding emergency financing support through the BNDES-backed Plano Brasil Soberano. Brazil must decide whether calibrated retaliation, negotiation, coalition-building, or diversification can contain the pressure without raising costs at home or validating Washington’s method.\n\nBrazil’s response must balance domestic costs, bargaining credibility, and the wider precedent created by selective Section 301 pressure. A narrow countermeasure could impose political costs with limited inflation at home. Cushioning, negotiation, or multilateral action would each preserve different forms of flexibility while accepting slower or less visible relief.",
+  "briefing": "On July 15, 2026, Washington announced a 25% tariff on selected Brazilian goods, due to start July 22. Coffee, beef and aircraft-related goods were exempt. Sugar, machinery and furniture were among the goods affected. Brazil’s trade minister told Reuters that the tariffs would cover about 18 percent of Brazilian exports to the United States.\n\nWashington invoked Section 301, the U.S. trade law it used to investigate Brazilian practices ranging from electronic payments to ethanol market access. Brasília rejected the findings. Officials were considering restrictions on U.S. audiovisual companies or on patent rights. Either measure could put pressure on American firms. A broad tariff on imports would also raise prices for Brazilian buyers.\n\nBrazil already had a way to help exporters through its development bank, BNDES. Loans could give affected firms time to find customers elsewhere. They would leave the U.S. tariff in place. A negotiated exemption could spare one industry and leave its neighbours paying the full duty. Brazil could also seek support from other trading partners. Building a coalition would take time while firms with orders due in July had to decide whether to ship, cut their prices or look for another buyer. Retaliation posed a different timing problem. If officials targeted an American industry with influence in Washington, they might bring U.S. negotiators back to the table. If the United States answered with another tariff, more Brazilian firms could find themselves exposed.\n\nAs of July 17 officials did not know whether the exemption list would change before the duties took effect. In the week before July 22, which mattered more: relief for those firms, a deal with Washington, or a response strong enough to discourage another round?",
   "actors": [
     "Brazil",
     "United States",
@@ -54,7 +55,7 @@
     },
     {
       "id": "c4",
-      "text": "Reuters reported that the package affects around 18% of Brazil’s exports to the United States."
+      "text": "Brazil’s trade minister told Reuters that the tariffs would cover around 18% of Brazil’s exports to the United States."
     },
     {
       "id": "c5",
@@ -159,8 +160,8 @@
   "nextRoutes": [
     {
       "href": "/modules/technology",
-      "label": "Technology & Geoeconomics Focus Area",
-      "reason": "Test how you weigh trade leverage, dependence, and domestic policy room."
+      "label": "Technology questionnaire archive",
+      "reason": "New completions are paused. You can still open an earlier Technology result."
     },
     {
       "href": "/explore/atlas",
@@ -200,7 +201,7 @@
       "publisher": "Reuters",
       "publishedAt": "2026-07-16",
       "accessedAt": "2026-07-17",
-      "url": "https://www.reuters.com/world/americas/us-imposes-25-tariff-some-goods-brazil-2026-07-16/",
+      "url": "https://www.investing.com/news/economy-news/us-imposes-25-tariff-on-some-goods-from-brazil-4794624",
       "kind": "high-quality-reporting",
       "claimIds": ["c3", "c4"]
     },

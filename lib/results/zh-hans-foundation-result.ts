@@ -1,6 +1,8 @@
+import { ambiguousFoundationCopy, type FoundationPresentation } from "@/lib/results/foundation-result-heading"
 import type { FoundationQuestionSet, FoundationTier } from "@/lib/types"
 
 export type ZhHansFoundationResultHeadingInput = {
+  presentation?: FoundationPresentation
   resultTier: FoundationTier
   questionSet: FoundationQuestionSet | null
   legacy: boolean
@@ -21,6 +23,7 @@ export type ZhHansFoundationResultHeading = {
  * translation or English fallback.
  */
 export function buildZhHansFoundationResultHeading({
+  presentation,
   resultTier,
   questionSet,
   legacy,
@@ -30,21 +33,31 @@ export function buildZhHansFoundationResultHeading({
 }: ZhHansFoundationResultHeadingInput): ZhHansFoundationResultHeading {
   const formLabel = zhHansFoundationFormLabel(questionSet, resultTier)
 
+  if (presentation && !presentation.showArchetype) {
+    const copy = ambiguousFoundationCopy(presentation, "zh-Hans")
+    return { eyebrow: `来自${formLabel}的基础结果`, title: copy.title, lead: copy.summary }
+  }
+  if (presentation?.kind === "two-way-tie") return {
+    eyebrow: `来自${formLabel}的基础结果`,
+    title: `${primaryLabel}与${runnerUpLabel}并列`,
+    lead: "两种传统的分数按公布精度相同。已保存结果中的先后顺序不代表胜出；组合名称只是对两种解释的概括。",
+  }
+
   if (legacy) {
     return {
       eyebrow: "较早版本保存的基础结果",
-      title: `较早版本的基础读法：${primaryLabel}`,
+      title: `较早版本的基础解释：${primaryLabel}`,
       lead:
-        "此链接保留当时发布的读法。由于无法确认其完整题组与校准元组，本页不会根据汇总分数重建精确的分类贡献。",
+        "此链接保留当时发布的解释。由于无法确认其完整题组与校准元组，本页不会根据汇总分数重建精确的分类贡献。",
     }
   }
 
   if (lowDifferentiation && resultTier === "core") {
     return {
-      eyebrow: `来自${formLabel}的初步基础读法`,
-      title: `初步基础读法：${primaryLabel}与${runnerUpLabel}`,
+      eyebrow: `来自${formLabel}的初步基础解释`,
+      title: `初步基础解释：${primaryLabel}与${runnerUpLabel}`,
       lead:
-        "在当前题组中，这两种读法都仍然成立。下方的注册名称只是模型输出的次要简写；五道定向跟进题可继续检验两者之间的边界。",
+        "在当前题组中，这两种解释都仍然成立。下方的注册名称只是模型输出的次要简写；五道定向跟进题可继续检验两者之间的边界。",
     }
   }
 
@@ -53,15 +66,15 @@ export function buildZhHansFoundationResultHeading({
       eyebrow: `来自${formLabel}的基础结果`,
       title: `${primaryLabel}与${runnerUpLabel}仍然接近`,
       lead:
-        "当前题组没有让其中一种读法形成清楚的模型领先。下方的注册名称只是对这组相邻结果的解释性简写。",
+        "当前题组没有让其中一种解释形成清楚的模型领先。下方的注册名称只是对这组相邻结果的解释性简写。",
     }
   }
 
   return {
     eyebrow: `来自${formLabel}的基础结果`,
-    title: `${primaryLabel}在这次基础读法中领先`,
+    title: `${primaryLabel}在这次基础解释中领先`,
     lead:
-      `这种领先只在当前题组中较为清楚。${runnerUpLabel}仍是最近的替代读法。这是模型结果，不代表持久不变的个人特质。`,
+      `这种领先只在当前题组中较为清楚。${runnerUpLabel}仍是最近的替代解释。这是模型结果，不代表持久不变的个人特质。`,
   }
 }
 

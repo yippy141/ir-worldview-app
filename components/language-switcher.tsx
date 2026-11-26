@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import {
   buildLanguageSwitchHref,
   internalPath,
+  isApprovedChinesePath,
   publicPath,
 } from "@/i18n/paths"
 import type { Locale } from "@/i18n/routing"
@@ -23,6 +24,8 @@ export function LanguageSwitcher({
   const t = useTranslations("language")
   const targetLocale: Locale = locale === "zh-Hans" ? "en" : "zh-Hans"
   const targetPathname = publicPath(targetLocale, internalPath(pathname))
+
+  if (targetLocale === "zh-Hans" && !isApprovedChinesePath(pathname)) return null
 
   return (
     <a

@@ -78,7 +78,7 @@ const MODULE_MAP = Object.fromEntries(
 ) as Record<ModuleSlug, ModuleDefinition>
 
 export function getModuleDefinition(slug: string): ModuleDefinition | null {
-  return slug in MODULE_MAP ? MODULE_MAP[slug as ModuleSlug] : null
+  return Object.hasOwn(MODULE_MAP, slug) ? MODULE_MAP[slug as ModuleSlug] : null
 }
 
 export function getModuleQuestions(

@@ -39,6 +39,18 @@ interactive than to a SaaS tool, AI demo, or personality-test product.
    user's question before the system explains itself. Trust notes belong
    below the first payoff, not in the hero.
 
+## Reviewing a user journey
+
+- Follow one concrete judgment from the invitation through the questions,
+  result, return visit, and shared view. Check that counts, saved progress,
+  and the strength of the interpretation agree at each destination.
+- For a new result sentence, identify the answer, score, or editorial source
+  that supports it. Name the actor and decision in reader-facing examples.
+  Keep instructions beside the action they help the reader take.
+- When reviewing a revision, identify the tested commit or preview and
+  distinguish observed behavior, participant feedback, and design hypotheses.
+  Use a fresh browser context for first visits and a saved one for returns.
+
 ## Methodology guardrails
 
 - Do not present scores as population percentiles unless they actually are.
@@ -94,3 +106,13 @@ depends more on the issue and relationship involved."
 When a sprint ends, replace the "Current sprint" section above with the next
 sprint's bullets, or remove it entirely until the next sprint is defined.
 Do not let sprint sections accumulate.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

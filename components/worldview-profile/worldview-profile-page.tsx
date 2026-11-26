@@ -186,12 +186,12 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
               <p>The same logic, put to a case about force and to a case about technology.</p>
             </div>
             <div className={styles.domainList}>
-              <p><Link href="/modules/security">Try Security</Link> to decide cases such as the one above.</p>
+              <p><Link href="/decisions/who-gets-to-verify">Choose who verifies an AI agreement</Link> in a short exercise.</p>
               <DomainEntry
                 title="Technology"
                 body={pattern.technologySummary}
-                href="/modules/technology"
-                linkLabel="Open Technology"
+                href="/decisions/who-gets-access"
+                linkLabel="Decide who can use an AI model"
               />
               <DomainEntry
                 title="AI"

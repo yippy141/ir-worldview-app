@@ -12,6 +12,8 @@ import {
   SECURITY_BANK_VERSION,
   SECURITY_SCORING_VERSION,
   securityModule,
+  securityV4Module,
+  SECURITY_V4_BANK_VERSION,
 } from "@/lib/modules/security"
 import {
   TECHNOLOGY_BANK_VERSION,
@@ -223,9 +225,57 @@ export const technologyModuleManifest = {
   bridges: [],
 } satisfies DomainModuleManifest<"technology">
 
-export const MODULE_AUTHORING_RECORDS = [
+// Frozen manifests of the last public betas, retained for provenance and replay tests.
+export const ARCHIVED_BETA_RECORDS = [
   { manifest: securityModuleManifest, definition: securityModule },
   { manifest: technologyModuleManifest, definition: technologyModule },
+] as const satisfies readonly ModuleAuthoringRecord[]
+
+// Rollback tuples are specified by the two August 21 owner decisions. No beta
+// decision is attached to a compatibility-only manifest.
+const withdrawalReview = {
+  id: "november-beta-withdrawal",
+  path: "docs/pm/MODULE_BETA_WITHDRAWAL.md",
+}
+const securityCompatibilityManifest: DomainModuleManifest<"security"> = {
+  ...securityModuleManifest,
+  releaseState: "withdrawn",
+  releaseDecision: undefined,
+  versions: { manifest: 1, questionBank: SECURITY_V4_BANK_VERSION, scoring: 2, resultCopy: 1 },
+  resultCopy: resultCopyFromDefinition(securityV4Module),
+  calibration: {
+    ...securityModuleManifest.calibration,
+    questionBankVersion: SECURITY_V4_BANK_VERSION,
+    id: "v23.3-security-bank4-scorer2-uniform-primary-2026-08-19",
+    artifactPath: "lib/modules/calibration-data-v4.ts",
+  },
+  localeStatus: {
+    sourceLocale: "en",
+    locales: [{ locale: "en", status: "authored-complete", contentVersion: 1 }, { locale: "zh-Hans", status: "not-authored" }],
+  },
+  evidenceAuditHooks: {
+    evidence: [{ id: "security-v4-sources", path: "docs/v23/security/V23_3_SECURITY_SOURCE_LEDGER.md" }],
+    reviews: [withdrawalReview, { id: "security-v4-hold", path: "docs/v23/security/V23_3_SECURITY_V4_CONTRACT.md" }],
+    audits: [{ id: "security-v4-balance", packageScript: "validate:security-v4", path: "scripts/validate-security-v4.mts" }],
+  },
+  manifestFingerprint: "4e78a6053e00793e66ad9e77d316e49622b4ad0f0df93e19b067e628d80d67dc",
+}
+
+const technologyCompatibilityManifest: DomainModuleManifest<"technology"> = {
+  ...technologyModuleManifest,
+  releaseState: "withdrawn",
+  releaseDecision: undefined,
+  versions: { ...technologyModuleManifest.versions, manifest: 1 },
+  evidenceAuditHooks: {
+    ...technologyModuleManifest.evidenceAuditHooks,
+    reviews: [...technologyModuleManifest.evidenceAuditHooks.reviews, withdrawalReview],
+  },
+  manifestFingerprint: "a36cadde5cd33e33405ea8305c0b2369fad00f863874e313ac22bd946e710b5d",
+}
+
+export const MODULE_AUTHORING_RECORDS = [
+  { manifest: securityCompatibilityManifest, definition: securityV4Module },
+  { manifest: technologyCompatibilityManifest, definition: technologyModule },
 ] as const satisfies readonly ModuleAuthoringRecord[]
 
 export const MODULE_AUTHORING_MANIFESTS = MODULE_AUTHORING_RECORDS.map(
@@ -236,10 +286,17 @@ const MODULE_AUTHORING_RECORD_MAP = Object.fromEntries(
   MODULE_AUTHORING_RECORDS.map((record) => [record.manifest.slug, record]),
 ) as Record<ModuleSlug, (typeof MODULE_AUTHORING_RECORDS)[number]>
 
-export function getModuleAuthoringRecord(
-  slug: string,
-): (typeof MODULE_AUTHORING_RECORDS)[number] | null {
+type RegisteredModule = (typeof MODULE_AUTHORING_RECORDS)[number]
+
+export function getModuleAuthoringRecord(slug: ModuleSlug): RegisteredModule
+export function getModuleAuthoringRecord(slug: string): RegisteredModule | null
+export function getModuleAuthoringRecord(slug: string): RegisteredModule | null {
   return Object.prototype.hasOwnProperty.call(MODULE_AUTHORING_RECORD_MAP, slug)
     ? MODULE_AUTHORING_RECORD_MAP[slug as ModuleSlug]
     : null
+}
+
+export function acceptsModuleCompletions(slug: ModuleSlug) {
+  const { manifest } = getModuleAuthoringRecord(slug)
+  return manifest.releaseState === "shipping" || manifest.releaseState === "public-beta"
 }

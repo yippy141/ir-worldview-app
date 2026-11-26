@@ -2,8 +2,8 @@
 import { test, expect, type Page } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import { syntheticAnswers } from './fixtures'
-import { getModuleQuestions } from '@/lib/modules/framework'
-import { getCurrentModuleVersion } from '@/lib/modules/versions'
+import { encodeModulePayload, getModuleQuestions } from '@/lib/modules/framework'
+import { getLatestModuleVersion } from '@/lib/modules/versions'
 import { createModuleDraft, getModuleDraftKey } from '@/lib/modules/drafts'
 import { getCurrentAiGovernanceVersion } from '@/lib/ai-governance-versions'
 import { perspectiveCatalog } from '@/lib/perspectives/catalog'
@@ -44,15 +44,17 @@ test('all targeted Foundation forms, historical full/legacy outputs and unavaila
  await page.goto('/results/'+Buffer.from(JSON.stringify({v:99})).toString('base64url'))
  await expect(page.locator('h1')).toContainText('could not be decoded')
 })
-test('Security and Technology Standard/Analyst complete reviews retain current version dispatch',async({page})=>{
+test('Security and Technology closed reviews preserve drafts and issued results in both modes',async({page})=>{
  for(const slug of ['security','technology'] as const) for(const mode of ['standard','analyst'] as const) {
-  const version=getCurrentModuleVersion(slug), questions=getModuleQuestions(version.definition,mode)
+  const version=getLatestModuleVersion(slug), questions=getModuleQuestions(version.definition,mode)
   const context={slug,mode,locale:'en',bankVersion:version.bankVersion,scoringVersion:version.scoringVersion,questions,allowsSecondChoice:()=>false}
   const draft={...createModuleDraft(context,'synthetic-coverage'),answers:Object.fromEntries(questions.map(q=>[q.id,{primary:q.options[0].id}])),stage:'review'}
   await seed(page,MODULE_DRAFT_STORAGE_KEY,{v:1,selectedMode:{[`${slug}:en`]:mode},drafts:{[getModuleDraftKey(context)]:draft}})
-  await page.goto(`/modules/${slug}`);await expect(page.locator('#module-review-heading')).toBeVisible()
-  await capture(page,`1440-${slug}-${mode}-review`)
-  await page.getByRole('button',{name:new RegExp(`See .* result`)}).click();await expect(page).toHaveURL(new RegExp(`/modules/${slug}/results/`))
+  await page.goto(`/modules/${slug}`);await expect(page.locator('[data-module-withdrawn]')).toBeVisible()
+  await expect(page.getByRole('button',{name:/See .* result/})).toHaveCount(0)
+  await capture(page,`1440-${slug}-${mode}-hold`)
+  const issued=encodeModulePayload({v:3,bv:version.bankVersion,sv:version.scoringVersion,slug,mode,answers:draft.answers})
+  await page.goto(`/modules/${slug}/results/${issued}`)
   await expect(page.locator('h1')).toBeVisible()
   await page.setViewportSize({width:390,height:844});await capture(page,`390-${slug}-${mode}-result`)
   await page.setViewportSize({width:1440,height:900})
@@ -85,6 +87,6 @@ test('Profile empty, single, legacy multiple-domain and shared views; every Pers
  for(const perspective of perspectiveCatalog) {
   const payload=encodePerspectivePayload({v:1,perspectiveId:perspective.id,scenarioSetVersion:perspective.scenarioSetVersion,baselineScores:[4,4,4,4,4,4,4],answers:Object.fromEntries(perspective.scenarios.map(q=>[q.id,q.options[0].id]))})
   await page.goto(`/perspectives/${perspective.id}/result/${payload}`)
-  await expect(page.locator('h1')).toContainText(perspective.shortLabel)
+  await expect(page.locator('h1')).toContainText(perspective.shortLabel, { ignoreCase: true })
  }
 })

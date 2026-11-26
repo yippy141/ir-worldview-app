@@ -1,5 +1,8 @@
 "use client"
 
+import { classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { generateResult, getV2ScoringCalibration } from "@/lib/scoring"
+import { foundationGlossary } from "@/lib/foundation-glossary"
 import { FirstInstinctPrompt } from "@/components/quiz/first-instinct-prompt"
 import Link from "next/link"
 
@@ -32,6 +35,7 @@ import {
 } from "@/lib/quiz-schema"
 import {
   QUIZ_STORAGE_KEY,
+  writeFoundationDraft,
   createEmptySession,
   notifyQuizSessionUpdated,
   parseQuizSession,
@@ -57,14 +61,14 @@ const englishFoundationQuizUi = {
   title: "Foundation",
   adaptedBeta: "",
   setSummary: {
-    core: `${questionCountsBySet.core} questions · about 6 to 8 minutes · followed by a provisional result.`,
+    core: (count) => `${count} questions · then review your answers and see your result.`,
     targetedExtended:
-      "5 follow-up questions examine the distinction between your two nearest modeled traditions.",
-    fullExtended: `${questionCountsBySet.fullExtended} additional questions · saved form, including its research-comparison items.`,
-    baselineExtended: `${questionCountsBySet.baselineExtended} additional questions · the scored extension without the research-comparison block.`,
+      (count) => `${count} follow-up questions compare the two traditions closest to your first result.`,
+    fullExtended: (count) => `${count} additional questions in this saved edition, including a set for comparing questionnaire versions.`,
+    baselineExtended: (count) => `${count} additional questions about rivalry, cooperation and the choices governments face. These count toward your extended result.`,
   },
   setLabels: {
-    core: "Standard · 12 questions",
+    core: "Standard",
     targetedExtended: "Targeted extension",
     fullExtended: "Saved full extension",
     baselineExtended: "Baseline extension",
@@ -83,15 +87,15 @@ const englishFoundationQuizUi = {
   questionProgress: (label, index, total) => `${label} · ${index} of ${total}`,
   howToAnswer: "How to answer",
   publicDefensibilityNote:
-    "Select the judgment you would actually use. Public defensibility alone should not determine your answer.",
+    "",
   analystSecondChoiceNote:
-    "If a second option remains plausible, Advanced mode lets you mark it as a lower-weight backup.",
+    "In Advanced mode you can also choose a second option. It counts less.",
   stronglyDisagree: "Strongly disagree",
   stronglyAgree: "Strongly agree",
   likertAria: (value) => `${value} — ${value === 1 ? "strongly disagree" : value === 7 ? "strongly agree" : `${value} out of 7`}`,
   secondMostPersuasive: "Second-most persuasive",
   secondChoiceHelp:
-    "Use this only when another option also captures part of your analytic judgment. It counts less than your main choice.",
+    "Leave this blank if only one option fits.",
   back: "Back",
   next: "Next",
   reviewAnswers: "Review your answers →",
@@ -111,10 +115,10 @@ const englishFoundationQuizUi = {
     both: "Both",
   },
   choiceInstructions: {
-    explanation: "Which option best explains what is driving the case? Choose the one you would use in your own analysis.",
-    decision: "Which consideration should lead the decision? Choose the one you would use to decide the case.",
-    actorLens: "Which logic best fits the named actor's strategic position? Judge the actor's position independently of the policy you would choose.",
-    both: "Which option is most persuasive overall? Choose the one that best matches your own judgment.",
+    explanation: "Which explanation best accounts for what happened?",
+    decision: "Which consideration should guide the decision?",
+    actorLens: "What matters most to the actor named in the question?",
+    both: "Which argument do you find most persuasive?",
   },
   dimensionLabels,
   positionMap: {
@@ -176,12 +180,17 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         requestedSecondFamily,
       )
 
+      const canTarget = hasCompleteCore && classifyFoundationPresentation(
+        generateResult(selectFoundationAnswersForSet(baseSession.answers, "core"), "analyst", "core"),
+        getV2ScoringCalibration("core").lowDifferentiationThreshold,
+      ).showArchetype
+
       if (baseSession.questionSet === "fullExtended") {
         setSession({ ...baseSession, activeMode: baseSession.activeMode ?? "analyst" })
       } else if (
         requestedExtension === "targeted" &&
         requestedPair &&
-        hasCompleteCore
+        canTarget
       ) {
         setSession({
           ...baseSession,
@@ -189,7 +198,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
           questionSet: "targetedExtended",
           targetedFamilyPair: requestedPair,
         })
-      } else if (requestedExtension === "full" && hasCompleteCore) {
+      } else if ((requestedExtension === "full" || (requestedExtension === "targeted" && !canTarget)) && hasCompleteCore) {
         setSession({
           ...baseSession,
           activeMode: "analyst",
@@ -219,7 +228,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
 
   useEffect(() => {
     if (!ready) return
-    window.localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(session))
+    writeFoundationDraft(window.localStorage, session)
     notifyQuizSessionUpdated()
   }, [ready, session])
 
@@ -453,9 +462,9 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   return (
     <div className={locale === "en" ? "stack-lg foundation-task" : "stack-lg"}>
       {entranceOpen && <section className="foundation-entrance">
-        <h1>How do you judge the arguments behind world politics?</h1>
-        <p className="entrance-count">{displayedSet === "core" ? "Standard · 12 questions · about 3 minutes" : `${questions.length} questions`}</p>
-        <p>Consider power, cooperation, ideas and economic interests. Your result explains which traditions your answers came nearest, and where another reading pulls against them.</p>
+        <h1>What makes an agreement between rivals last?</h1>
+        <p className="entrance-count">{displayedSet === "core" ? `Standard · ${questions.length} questions` : `${questions.length} questions`}</p>
+        <p>You might look to inspectors who can catch cheating, or to the power each country has to enforce the deal. Rate statements like these, then see which arguments your answers support across seven scales.</p>
         <button type="button" className="primary-button" onClick={() => { setEntranceOpen(false); requestAnimationFrame(() => document.querySelector<HTMLElement>(".quiz-question-frame h2")?.focus()) }}>Start Foundation</button>
         <p className="entrance-reading">Read first: <Link href="/explore">the arguments in the Library</Link>, or <Link href="/archetypes">Foundation readings</Link>.</p>
       </section>}
@@ -471,7 +480,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
               <div className="stack-xs">
                 {locale !== "en" ? <h1>{copy.title}</h1> : entranceOpen ? <p className="task-orientation-title">{copy.title}</p> : <h1 className="task-orientation-title">{copy.title}</h1>}
-                {(locale !== "en" || displayedSet !== "core") && <p className="muted" style={{ lineHeight: "1.65" }}>{copy.setSummary[displayedSet]}</p>}
+                {(locale !== "en" || displayedSet !== "core") && <p className="muted" style={{ lineHeight: "1.65" }}>{copy.setSummary[displayedSet](questions.length)}</p>}
                 {copy.adaptedBeta ? (
                   <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
                 ) : null}
@@ -526,7 +535,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
       </section>}
 
       {resumeOpen && <section className="panel stack-md" aria-label={locale === "zh-Hans" ? "已保存的问卷" : "Saved questionnaire"}>
-        <p>{locale === "zh-Hans" ? `你有一份尚未完成的问卷（已回答 ${completedCount} 题，共 ${questions.length} 题）。` : `You have an unfinished questionnaire in progress (${completedCount} of ${questions.length} answered).`}</p>
+        <p>{locale === "zh-Hans" ? `此浏览器已保存答案（已回答 ${completedCount} 题，共 ${questions.length} 题）。` : `Answers saved in this browser (${completedCount} of ${questions.length} answered).`}</p>
         <div className="row gap-sm wrap">
           <button type="button" className="primary-button" onClick={() => {
             const nextIndex = questions.findIndex(question => session.answers[question.id] === undefined)
@@ -579,9 +588,9 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
                   <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
                     {copy.choiceInstructions[currentQuestion.cardType]}
                   </p>
-                  <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
+                  {copy.publicDefensibilityNote && <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
                     {copy.publicDefensibilityNote}
-                  </p>
+                  </p>}
                   {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst ? (
                     <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
                       {copy.analystSecondChoiceNote}
@@ -594,6 +603,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             {hasSupport(currentQuestion) ? (
               <SupportBlock
                 question={currentQuestion}
+                locale={locale}
                 visible={supportVisible}
                 onToggle={() => setSupportOpen((open) => !open)}
                 autoShown={session.contextAssist}
@@ -733,12 +743,14 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
 
 function SupportBlock({
   question,
+  locale,
   visible,
   autoShown,
   onToggle,
   copy,
 }: {
   question: Question
+  locale: Locale
   visible: boolean
   autoShown: boolean
   onToggle: () => void
@@ -779,6 +791,7 @@ function SupportBlock({
             lineHeight: "1.6",
           }}
         >
+          {foundationGlossary(question.id, locale).map(term => <p key={term.term}><strong>{term.term}:</strong> {term.definition}</p>)}
           {question.helpText ? <p>{question.helpText}</p> : null}
           {question.clarification ? (
             <ClarificationCopy clarification={question.clarification} copy={copy} />
@@ -823,7 +836,7 @@ function questionLabel(question: Question, copy: FoundationQuizUiCopy) {
 }
 
 function hasSupport(question: Question) {
-  return Boolean(question.helpText || question.clarification)
+  return Boolean(question.helpText || question.clarification || foundationGlossary(question.id, "en").length)
 }
 
 function supportToggleLabel(question: Question, copy: FoundationQuizUiCopy) {

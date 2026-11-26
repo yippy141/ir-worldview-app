@@ -1,3 +1,4 @@
+import { ambiguousFoundationCopy } from "@/lib/results/foundation-result-heading"
 import {
   atlasLitePatterns,
   getAtlasPatternHref,
@@ -81,6 +82,14 @@ export function buildBaselineFieldItem(
   const leadingCell = ARCHETYPE_MATRIX_CELLS.find(
     ({ archetypeCode }) => archetypeCode === baseline.leadingPureCode,
   )
+  if (baseline.ambiguity) {
+    const summary = ambiguousFoundationCopy(baseline.ambiguity, locale).title
+    return { id: "my-baseline", layerId: "my-profile", kind: "baseline",
+      label: locale === "en" ? "My baseline" : zhHansWorldviewMapUi.fieldItems.myBaseline,
+      sortKey: "0-my-baseline", searchableText: ["baseline", summary], summary,
+      position: baseline.continuousProjection, href: internalPath(foundation.resultPath),
+      metaLine: formatFieldDate(foundation.timestamp, locale) }
+  }
   if (!leadingCell) return null
 
   const zh = locale === "zh-Hans"

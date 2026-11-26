@@ -11,7 +11,7 @@ import {
   hasPerspectiveBankCapability,
 } from "@/lib/modules/perspective-bank"
 import {
-  CURRENT_MODULE_TUPLES,
+  LATEST_MODULE_TUPLES,
   SECURITY_V4_TUPLE,
   SECURITY_V5_TUPLE,
   getModuleVersion,
@@ -62,7 +62,7 @@ test("Security v5 is the current exact tuple with separately gated hashes", asyn
   const report = await buildSecurityV5ValidationReport()
 
   assert.deepEqual(SECURITY_V5_TUPLE, golden.tuple)
-  assert.deepEqual(CURRENT_MODULE_TUPLES.security, golden.tuple)
+  assert.deepEqual(LATEST_MODULE_TUPLES.security, golden.tuple)
   assert.equal(V5_BANK.instrumentVersion, 5)
   assert.equal(report.bankSha256, golden.bankSha256)
   assert.equal(report.calibrationSha256, golden.calibrationSha256)

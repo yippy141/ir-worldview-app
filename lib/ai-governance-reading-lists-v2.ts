@@ -29,6 +29,7 @@ const BASELINE: ResultReadingMap = {
     },
     {
       id: "iasr-2025",
+      url: "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2025",
       title: "International AI Safety Report 2025",
       author: "Independent international expert group",
       year: "2025",
@@ -37,6 +38,7 @@ const BASELINE: ResultReadingMap = {
     },
     {
       id: "oecd-ai-principles",
+      url: "https://oecd.ai/en/ai-principles",
       title: "OECD AI Principles",
       author: "OECD",
       year: "2019 / updated 2023",
@@ -45,6 +47,7 @@ const BASELINE: ResultReadingMap = {
     },
     {
       id: "nist-ai-rmf-genai-profile",
+      url: "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
       title: "NIST AI RMF: Generative AI Profile",
       author: "NIST",
       year: "2024",

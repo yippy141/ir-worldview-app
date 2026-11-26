@@ -7,6 +7,7 @@ import {
   useImperativeHandle,
   useRef,
   useState,
+  useSyncExternalStore,
   type CSSProperties,
   type Ref,
 } from "react"
@@ -83,6 +84,7 @@ type Inspection = {
   item: WorldStageTooltipItem
   position: WorldStageInspectionPosition
   pinned: boolean
+  host: Element
 }
 
 const COUNTRY_SOURCE_ID = "world-stage-countries"
@@ -148,6 +150,10 @@ function propertiesToIdentity(
   }
 }
 
+const subscribeDebug = () => () => {}
+const serverDebug = () => false
+const readDebug = () => process.env.NODE_ENV === "development" && new URLSearchParams(location.search).get("mapDebug") === "1"
+
 export function WorldStageMap({
   ref,
   scene,
@@ -179,15 +185,17 @@ export function WorldStageMap({
   const onInteractionRef = useRef(onInteraction)
   const [mapReady, setMapReady] = useState(false)
   const [fallbackZoom, setFallbackZoom] = useState(FALLBACK_INITIAL_ZOOM)
-  const [showDiagnostic, setShowDiagnostic] = useState(false)
+  const showDiagnostic = useSyncExternalStore(subscribeDebug, readDebug, serverDebug)
   const [diagnostic, setDiagnostic] = useState<MapDiagnosticState>("live-map")
   const [inspection, setInspection] = useState<Inspection | null>(null)
 
-  activeSceneRef.current = scene
-  activeFiltersRef.current = filters
-  motionPausedRef.current = motionPaused
-  reducedMotionRef.current = reducedMotion
-  onInteractionRef.current = onInteraction
+  useEffect(() => {
+    activeSceneRef.current = scene
+    activeFiltersRef.current = filters
+    motionPausedRef.current = motionPaused
+    reducedMotionRef.current = reducedMotion
+    onInteractionRef.current = onInteraction
+  }, [scene, filters, motionPaused, reducedMotion, onInteraction])
 
   const zoomBy = useCallback((delta: number) => {
     onInteractionRef.current()
@@ -226,24 +234,24 @@ export function WorldStageMap({
       : position.x
     const y = Math.max(104, position.y)
     inspectionPinnedRef.current = pinned
-    setInspection({ item, position: { x, y }, pinned })
+    const frame = mapFrameRef.current
+    if (frame) setInspection({ item, position: { x, y }, pinned, host: (pinned && frame.parentElement) || frame })
+  }
+
+  const [previousInputs, setPreviousInputs] = useState({ scene, filters })
+  if (previousInputs.scene !== scene || previousInputs.filters !== filters) {
+    setPreviousInputs({ scene, filters })
+    setInspection(null)
+    if (previousInputs.scene !== scene) setFallbackZoom(FALLBACK_INITIAL_ZOOM)
   }
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "development") return
-    setShowDiagnostic(new URLSearchParams(window.location.search).get("mapDebug") === "1")
-  }, [])
-
-  useEffect(() => {
     inspectionPinnedRef.current = false
-    setInspection(null)
-    setFallbackZoom(FALLBACK_INITIAL_ZOOM)
     if (scene) transitionToSceneRef.current(scene)
   }, [scene])
 
   useEffect(() => {
     inspectionPinnedRef.current = false
-    setInspection(null)
     refreshMapDataRef.current()
   }, [filters])
 
@@ -253,20 +261,14 @@ export function WorldStageMap({
 
   useEffect(() => {
     const container = mapContainerRef.current
-    setMapReady(false)
     renderedSceneIdRef.current = null
 
     if (!container || !activeSceneRef.current) return
-    if (!WORLD_STAGE_MAPBOX_TOKEN) {
-      setDiagnostic("missing-token")
-      return
+    const unavailable = !WORLD_STAGE_MAPBOX_TOKEN ? "missing-token" : !hasWebGlSupport() ? "no-webgl" : null
+    if (unavailable) {
+      const frame = requestAnimationFrame(() => setDiagnostic(unavailable))
+      return () => cancelAnimationFrame(frame)
     }
-    if (!hasWebGlSupport()) {
-      setDiagnostic("no-webgl")
-      return
-    }
-
-    setDiagnostic(reducedMotion ? "reduced-motion-static" : "live-map")
 
     const mapHost = container
     const passiveCapture = { capture: true, passive: true } as const
@@ -944,9 +946,7 @@ export function WorldStageMap({
             </div>
           ) : null}
             </div>,
-            inspection.pinned
-              ? mapFrameRef.current?.parentElement ?? document.body
-              : mapFrameRef.current ?? document.body,
+            inspection.host,
           )
         : null}
 

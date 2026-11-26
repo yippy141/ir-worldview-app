@@ -19,7 +19,11 @@ import {
   type FoundationSnapshot,
 } from "../lib/profile-store"
 
+import { resultFixtures } from "../tests/decision-exercises/fixtures"
+
 const fixtures = buildFoundationFixtureSet()
+// The frozen V23.6 blend has an unresolved posture. Use a signed blend for mark geometry.
+const signedBlend = resultFixtures().foundation["R/M-"]
 const rootDestinations = [
   { id: "foundation", pathname: "/quiz" }, { id: "futures", pathname: "/futures" },
   { id: "library", pathname: "/explore" }, { id: "perspectives", pathname: "/perspectives" },
@@ -92,7 +96,7 @@ test("returning-state hydration preserves root menu geometry", async ({ page }) 
     window.dispatchEvent(new StorageEvent("storage", { key }))
   }, { key: PROFILE_STORAGE_KEY })
 
-  await expect(page.getByText(/saved Foundation result/iu)).toBeVisible()
+  await expect(page.locator("[data-root-returning]").getByText(/saved Foundation result/iu)).toBeVisible()
   expect(await menu.boundingBox()).toEqual(before)
 })
 
@@ -128,21 +132,19 @@ test("World Stage retains scene selection, filters, sources, fallback, controls,
 
 test("current core result headlines both readings while a clearer result stays pure", async ({ page }) => {
   await page.goto(`/results/${fixtures.lowDifferentiationCore}`)
-  await expect(page.getByText(/^An initial Foundation read:/)).toBeVisible()
-  await expect(page.getByText(/Both readings remain live in the current item set/iu))
-    .toBeVisible()
-  await expect(page.locator('[data-foundation-mark="blend"]:visible')).toHaveCount(1)
+  await expect(page.locator("h1")).toHaveText("All dimensions at the midpoint")
+  await expect(page.locator("[data-foundation-mark]")).toHaveCount(0)
 
   await page.goto(`/results/${fixtures.clearerPureCore}`)
-  await expect(page.getByText(/leads this Foundation read/))
+  await expect(page.getByText(/leads this Foundation result/))
     .toBeVisible()
-  await expect(page.getByText(/clearer within the current item set/iu)).toBeVisible()
-  await expect(page.getByText(/does not establish a durable trait/iu)).toBeVisible()
+  await expect(page.getByText(/ranking describes your answers on this form/iu)).toBeVisible()
+  await expect(page.getByText(/how consistently you would take the same view over time/iu)).toBeVisible()
   await expect(page.locator('[data-foundation-mark="pure"]:visible')).toHaveCount(1)
 })
 
 test("a near-boundary result renders the registered blend presentation", async ({ page }) => {
-  await page.goto(`/results/${fixtures.blendCore}`)
+  await page.goto(`/results/${signedBlend.payload}`)
 
   const blend = page.locator('[data-foundation-mark="blend"]:visible')
   await expect(blend).toHaveCount(1)
@@ -170,7 +172,7 @@ for (const resultCase of [
 ] as const) {
   test(`current ${resultCase.name} tuple uses its exact form contribution view`, async ({ page }) => {
     await page.goto(`/results/${resultCase.payload}`)
-    await page.getByText("Reading code and form",{exact:true}).click()
+    await page.getByText("Result code and form",{exact:true}).click()
     await expect(page.getByText(new RegExp(resultCase.formText, "iu")).first())
       .toBeVisible()
     await expect(page.locator('[data-contribution-status="legacy-unavailable"]:visible'))
@@ -183,11 +185,11 @@ for (const resultCase of [
 test("legacy and invalid result URLs fail closed without reconstructed contribution claims", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`/results/${fixtures.legacy}`)
-  await expect(page.getByText(/Registered legacy Foundation read/))
+  await expect(page.getByText(/Registered legacy Foundation result/))
     .toBeVisible()
   await expect(page.locator('[data-contribution-status="legacy-unavailable"]:visible'))
     .toHaveCount(1)
-  await expect(page.locator('[data-local-evidence-status="legacy"]:visible'))
+  await expect(page.locator('[data-local-evidence-status="legacy"]'))
     .toHaveCount(1)
 
   await page.goto("/results/not-a-valid-payload")
@@ -357,13 +359,13 @@ test("desktop has one sticky visual region and mobile remains a complete linear 
   await expect(sticky).toHaveCount(1)
   await expect(sticky).toBeVisible()
   const chapterVisuals = sticky.locator("[data-foundation-chapter-visual]")
-  await expect(chapterVisuals).toHaveCount(6)
+  await expect(chapterVisuals).toHaveCount(5)
   expect(await chapterVisuals.evaluateAll((elements) => elements.every(
     (element) => getComputedStyle(element).position === "sticky",
   ))).toBe(true)
   expect(await sticky.evaluate((element) => element.querySelectorAll(
     "[data-foundation-story-chapter] > [data-foundation-chapter-visual]",
-  ).length)).toBe(6)
+  ).length)).toBe(5)
 
   const noJs = await browser.newContext({
     baseURL,
@@ -373,12 +375,11 @@ test("desktop has one sticky visual region and mobile remains a complete linear 
   const noJsPage = await noJs.newPage()
   try {
     await noJsPage.goto(`/results/${fixtures.clearerPureCore}`)
-    await expect(noJsPage.locator("[data-foundation-story-chapter]")).toHaveCount(7)
+    await expect(noJsPage.locator("[data-foundation-story-chapter]")).toHaveCount(5)
     await expect(noJsPage.locator("[data-foundation-sticky-region]")).toBeVisible()
-    await expect(noJsPage.locator("[data-foundation-chapter-visual]")).toHaveCount(6)
-    await noJsPage.getByText("Open the orientation matrix", { exact: true }).click()
+    await expect(noJsPage.locator("[data-foundation-chapter-visual]")).toHaveCount(5)
     await expect(noJsPage.locator(
-      '[role="region"][aria-label="Registered Foundation reading matrix"]:visible',
+      '[role="region"][aria-label="Registered Foundation interpretation matrix"]:visible',
     ))
       .toBeVisible()
     expect(await noJsPage.evaluate(() => document.documentElement.scrollWidth))
@@ -408,11 +409,11 @@ for (const width of [320, 390, 768, 1440] as const) {
 for (const resultCase of [
   {
     name: "English",
-    path: `/results/${fixtures.lowDifferentiationCore}`,
+    path: `/results/${signedBlend.payload}`,
   },
   {
     name: "Simplified Chinese",
-    path: `/zh/results/${fixtures.chineseCore}`,
+    path: `/zh/results/${signedBlend.payload}`,
   },
 ] as const) {
   test(`${resultCase.name} low-differentiation diptych fits 768px`, async ({ page }) => {
@@ -440,9 +441,9 @@ test("reduced motion keeps every chapter and its visible state available", async
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto(`/results/${fixtures.clearerPureCore}`)
 
-  await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(7)
+  await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(5)
   await expect(page.locator("[data-foundation-chapter-visual]"))
-    .toHaveCount(6)
+    .toHaveCount(5)
   const motion = await page.locator("[data-foundation-result-story]").evaluate((story) => {
     const sample = story.querySelector<HTMLElement>("[data-foundation-story-chapter]")
     if (!sample) return null
@@ -500,16 +501,16 @@ test("print mode is static and retains the worked application without a page-cou
   await page.goto(`/results/${fixtures.clearerPureCore}`)
   await page.emulateMedia({ media: "print", reducedMotion: "reduce" })
 
-  await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(7)
+  await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(5)
   await expect(page.locator("[data-foundation-sticky-region]")).toBeVisible()
-  await expect(page.locator("[data-foundation-chapter-visual]")).toHaveCount(6)
+  await expect(page.locator("[data-foundation-chapter-visual]")).toHaveCount(5)
   const printVisualPositions = await page
     .locator("[data-foundation-chapter-visual]")
     .evaluateAll((visuals) => visuals.map((visual) =>
       window.getComputedStyle(visual).position))
-  expect(printVisualPositions).toEqual(Array(6).fill("static"))
+  expect(printVisualPositions).toEqual(Array(5).fill("static"))
   await expect(page.locator(
-    '[role="region"][aria-label="Registered Foundation reading matrix"]:visible',
+    '[role="region"][aria-label="Registered Foundation interpretation matrix"]:visible',
   ))
     .toBeVisible()
 

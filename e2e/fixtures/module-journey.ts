@@ -1,12 +1,12 @@
 import { encodeModulePayload } from "@/lib/modules/framework"
 import { createModuleDraft, createEmptyModuleDraftStore, getModuleDraftKey, getModuleModeKey } from "@/lib/modules/drafts"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getLatestModuleVersion } from "@/lib/modules/versions"
 import type { ModuleAnswers, ModuleSlug } from "@/lib/modules/types"
 import type { QuizMode } from "@/lib/types"
 
 /** Synthetic choices only. Shared by journey checks and before/after captures. */
 export function moduleJourneyFixture(slug: ModuleSlug, mode: QuizMode) {
-  const version = getCurrentModuleVersion(slug)
+  const version = getLatestModuleVersion(slug)
   const questions = version.runtime.getModuleQuestions(version.definition, mode)
   const answers: ModuleAnswers = Object.fromEntries(questions.map((question, index) => [
     question.id, { primary: question.options[index % question.options.length].id },

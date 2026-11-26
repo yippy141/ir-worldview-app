@@ -54,7 +54,7 @@ test("restraint maps onto the track without inventing headroom", () => {
   assert.equal(resolveRestraintPosture(profile("realist", 1)).fraction, 0)
   assert.equal(resolveRestraintPosture(profile("realist", 7)).fraction, 1)
   assert.equal(resolveRestraintPosture(profile("realist", 4)).fraction, 0.5)
-  assert.equal(resolveRestraintPosture(profile("realist", 4)).postureCut, 0.5)
+  assert.equal(resolveRestraintPosture(profile("realist", 4)).postureCut, null)
 })
 
 test("every modeled lens names both ends from the archetype catalog", () => {
@@ -136,4 +136,21 @@ test("every archetype in the catalog is reachable as a posture endpoint", () => 
       `${archetype.code} (${archetype.name}) is never offered as an endpoint`,
     )
   }
+})
+
+
+test("extended 4.56 / 4.57 boundary preserves codes and explains the calibrated Hedger", () => {
+  const low = profile("realist", 4.56)
+  const middle = profile("realist", 4.57)
+  assert.equal(low.strategyModifier, "Maximizer")
+  assert.equal(middle.strategyModifier, "Hedger")
+  const maximizer = resolveRestraintPosture(low, undefined, "extended")
+  const hedger = resolveRestraintPosture(middle, undefined, "extended")
+  assert.equal(maximizer.posture, "+")
+  assert.equal(hedger.posture, "-")
+  assert.equal(hedger.postureCut, (4.56 - 1) / 6)
+  assert.match(hedger.routingExplanation, /middle band \(Hedger\)/)
+  assert.match(hedger.routingExplanation, /not a Maximizer or Restrainer/)
+  assert.match(hedger.routingExplanation, /4.56/)
+  assert.equal(resolveRestraintPosture(buildCanonicalFoundationResult({ ...FAMILY_SHAPES.realist, restraint: 4 }, "core"), undefined, "core").postureCut, .5)
 })

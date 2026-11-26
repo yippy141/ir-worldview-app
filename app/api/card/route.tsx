@@ -36,10 +36,11 @@ export async function GET(request: Request) {
   const input = buildFoundationShareCardInput(
     resolved.result,
     lowDifferentiationThreshold,
+    resolved.payload.v === 5,
   )
 
   const { archetype, norm, coordinates } = input
-  const cardCopy = buildFoundationCardCopy(archetype, norm)
+  const cardCopy = buildFoundationCardCopy(archetype, norm, input.presentation)
   const isBlend = archetype.code.includes("/")
   const hasCjkTitle = /[\u3000-\u9fff]/u.test(cardCopy.name)
   const titleSize =
@@ -260,7 +261,7 @@ export async function GET(request: Request) {
               gap: 5,
             }}
           >
-            <span>Closest modeled family shown as a continuous profile</span>
+            <span>{input.presentation.showArchetype ? "Closest modeled family shown as a continuous profile" : "Dimension positions; no single leading family"}</span>
             {archetype.analogue ? (
               <span style={{ color: "#8295ab", fontSize: 16 }}>
                 Historical analogue · {archetype.analogue.label},{" "}

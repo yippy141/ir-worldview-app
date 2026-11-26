@@ -12,7 +12,8 @@ import type {
 } from "@/lib/types"
 import { createOptionOrderSeed } from "@/lib/option-order"
 
-export { QUIZ_STORAGE_KEY } from "@/lib/storage-keys"
+import { QUIZ_STORAGE_KEY } from "@/lib/storage-keys"
+export { QUIZ_STORAGE_KEY }
 export const QUIZ_SESSION_EVENT = "ir-worldview-session-updated"
 
 export function createEmptySession(): QuizSession {
@@ -87,6 +88,30 @@ export function parseQuizSession(raw: string | null): QuizSession | null {
   } catch {
     return null
   }
+}
+
+// Completion belongs to this local draft revision. Viewing or importing a result
+// never sets it. Navigation and latency updates leave the revision intact.
+function sameDraft(left: QuizSession, right: QuizSession) {
+  return left.orderSeed === right.orderSeed && left.questionSet === right.questionSet
+    && left.activeMode === right.activeMode
+    && JSON.stringify(left.targetedFamilyPair) === JSON.stringify(right.targetedFamilyPair)
+    && JSON.stringify(left.foundationCopy) === JSON.stringify(right.foundationCopy)
+    && JSON.stringify(left.answers) === JSON.stringify(right.answers)
+}
+
+export function writeFoundationDraft(storage: Pick<Storage, "getItem" | "setItem">, session: QuizSession, completing = false, localEvidenceId?: string) {
+  const previousRaw = storage.getItem(QUIZ_STORAGE_KEY)
+  const previous = parseQuizSession(previousRaw)
+  const same = previous && sameDraft(previous, session)
+  if (completing && !same) return
+  const prior = same ? JSON.parse(previousRaw!) : null
+  const completed = Boolean(same && (completing || prior?.completed === true))
+  const evidenceId = completing ? localEvidenceId : prior?.localEvidenceId
+  storage.setItem(QUIZ_STORAGE_KEY, JSON.stringify({
+    ...session, completed,
+    ...(completed && typeof evidenceId === "string" ? { localEvidenceId: evidenceId } : {}),
+  }))
 }
 
 export function getRecommendedMode(

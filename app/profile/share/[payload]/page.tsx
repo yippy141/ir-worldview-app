@@ -1,7 +1,7 @@
 import { DestinationLink } from "@/components/layout/destination-link"
 import { ProfileReport } from "@/components/profile/profile-report"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
-import { resolveFoundationArchetypeFromSnapshot } from "@/lib/profile-foundation-identity"
+import { foundationIdentityTitle, resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import { resolveProfileSharePayload } from "@/lib/profile-share"
 import { buildEnglishProfileSocialCopy } from "@/lib/foundation-social-copy"
 import type { Metadata } from "next"
@@ -22,13 +22,13 @@ export async function generateMetadata(
   }
 
   const foundation = resolved.profile.foundation
-  const archetype = foundation
-    ? resolveFoundationArchetypeFromSnapshot(foundation)
+  const identity = foundation
+    ? resolveFoundationIdentityFromSnapshot(foundation)
     : null
-  const socialCopy = archetype ? buildEnglishProfileSocialCopy(archetype) : null
+  const socialCopy = identity ? buildEnglishProfileSocialCopy(identity.archetype, identity.presentation) : null
   const title = socialCopy?.title ?? "Foundation result unavailable | Shared Profile"
   const description = socialCopy?.description
-    ?? "This shared Profile preserves its saved results, but its Foundation payload cannot be resolved and no Foundation reading is inferred."
+    ?? "This shared Profile preserves its saved results, but its Foundation payload cannot be resolved and no Foundation interpretation is inferred."
 
   return buildProfileMetadata(title, description, payload)
 }
@@ -89,8 +89,8 @@ export default async function SharedProfilePage(
       </div>
     )
   }
-  const foundationArchetype = resolved.profile.foundation
-    ? resolveFoundationArchetypeFromSnapshot(resolved.profile.foundation)
+  const foundationIdentity = resolved.profile.foundation
+    ? resolveFoundationIdentityFromSnapshot(resolved.profile.foundation)
     : null
 
   return (
@@ -108,7 +108,7 @@ export default async function SharedProfilePage(
           <ProfileShareActions
             payload={payload}
             headline={
-              foundationArchetype?.name ?? "Foundation result unavailable"
+              foundationIdentityTitle(foundationIdentity)
             }
           />
         }

@@ -1,13 +1,23 @@
+import { acceptsModuleCompletions } from "@/lib/modules/manifests"
+import { moduleJourneyFixture } from "./fixtures/module-journey"
 import { test, expect } from "@playwright/test"
 import { openSyntheticReview, type CompletionDomain } from "./fixtures/product-completion"
 
 for (const domain of ["foundation", "ai", "security", "technology"] as CompletionDomain[]) {
-  test(`${domain}: real completion draws; reload, Back, reduced motion and no-JS are complete`, async ({ page, browser }) => {
+  test(`${domain}: result reveal, reload, Back, reduced motion and no-JS`, async ({ page, browser }) => {
     await page.route("**/*", route => ["GET", "HEAD", "OPTIONS"].includes(route.request().method()) ? route.continue() : route.fulfill({ status: 204, body: "" }))
     await page.emulateMedia({ reducedMotion: "no-preference" })
-    const submit = await openSyntheticReview(page, domain)
-    await expect(submit).toBeEnabled()
-    await submit.click()
+    const archived = (domain === "security" || domain === "technology") && !acceptsModuleCompletions(domain)
+      ? moduleJourneyFixture(domain, "standard").resultPath : null
+    if (archived) {
+      await page.goto(archived)
+      await expect(page.locator(`[data-result-reveal="${domain}"]`)).toHaveAttribute("data-motion", "complete")
+      await page.getByRole("button", { name: /Replay/ }).click()
+    } else {
+      const submit = await openSyntheticReview(page, domain)
+      await expect(submit).toBeEnabled()
+      await submit.click()
+    }
     await expect(page).toHaveURL(/\/results\//)
     const reveal = page.locator(`[data-result-reveal="${domain}"]`)
     await expect(reveal).toHaveAttribute("data-motion", "drawing")
@@ -32,11 +42,15 @@ for (const domain of ["foundation", "ai", "security", "technology"] as Completio
     await expect(reveal).toHaveAttribute("data-motion", "drawing")
     await expect(mark).toBeInViewport({ ratio: 1 })
     await page.evaluate(() => dispatchEvent(new Event("beforeprint")))
-    await page.getByRole("link", { name: "View Profile", exact: true }).first().click(); await page.goBack()
+    await page.getByRole("link", { name: "View Profile", exact: true }).first().click()
+    await expect(page).toHaveURL(/\/profile$/)
+    await page.goBack()
+    await expect(page).toHaveURL(result)
     await expect(reveal).toHaveAttribute("data-motion", "complete")
     await page.emulateMedia({ reducedMotion: "reduce" })
-    const reducedSubmit = await openSyntheticReview(page, domain)
-    await reducedSubmit.click(); await expect(page).toHaveURL(/\/results\//)
+    if (archived) await page.goto(archived)
+    else await (await openSyntheticReview(page, domain)).click()
+    await expect(page).toHaveURL(/\/results\//)
     await expect(reveal).toHaveAttribute("data-motion", "complete")
     await expect(reveal.getByRole("button", { name: /Replay/ })).toBeHidden()
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })

@@ -67,7 +67,7 @@ export function ReadingPathSection({
                       rel="noopener noreferrer"
                       className="reading-entry-title reading-entry-title-link"
                     >
-                      {entry.title}
+                      {entry.title}{!entry.url && <span className="muted"> · Find on Google Scholar</span>}
                     </a>
 
 

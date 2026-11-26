@@ -9,7 +9,7 @@ import { hasAnyCurrentProfileRecord } from "@/components/profile/profile-record-
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
 import { loadCurrentCaseResponseStore } from "@/lib/current-cases/response-store"
 import type { CurrentCaseResponseStore } from "@/lib/current-cases/types"
-import { resolveFoundationArchetypeFromSnapshot } from "@/lib/profile-foundation-identity"
+import { foundationIdentityTitle, resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import {
   loadProfileStore,
   type ProfileStore,
@@ -62,7 +62,7 @@ export function ProfileDashboard() {
             <p className="eyebrow">Profile</p>
             <h1>Your results, ready to return to</h1>
             <p className="profile-state-panel__body">
-              Choose a question to begin. Foundation, AI Governance, Security and Technology can each be taken on their own.
+              Start with Foundation or AI Governance. Your completed results will appear here.
               Results stay on this device unless you choose to share them.
             </p>
           </div>
@@ -77,12 +77,12 @@ export function ProfileDashboard() {
               <span className="profile-state-action__meta">Examine who should govern capable AI.</span>
             </Link>
             <Link href="/modules/security" className="profile-state-action">
-              <span className="profile-state-action__label">Start Security</span>
-              <span className="profile-state-action__meta">Examine commitments, threats and force.</span>
+              <span className="profile-state-action__label">Security archive</span>
+              <span className="profile-state-action__meta">New questionnaires are paused. Earlier result links still open.</span>
             </Link>
             <Link href="/modules/technology" className="profile-state-action">
-              <span className="profile-state-action__label">Start Technology</span>
-              <span className="profile-state-action__meta">Examine access, interdependence and industrial power.</span>
+              <span className="profile-state-action__label">Technology archive</span>
+              <span className="profile-state-action__meta">Reopen an earlier result or try a short decision exercise.</span>
             </Link>
           </div>
 
@@ -99,8 +99,8 @@ export function ProfileDashboard() {
     const payload = buildCompatibleProfileSharePayload(profile)
     return payload ? encodeProfileSharePayload(payload) : null
   })()
-  const foundationArchetype = profile.foundation
-    ? resolveFoundationArchetypeFromSnapshot(profile.foundation)
+  const foundationIdentity = profile.foundation
+    ? resolveFoundationIdentityFromSnapshot(profile.foundation)
     : null
 
   return (
@@ -113,7 +113,7 @@ export function ProfileDashboard() {
             <ProfileShareActions
               payload={sharePayload}
               headline={
-                foundationArchetype?.name ?? "Foundation result unavailable"
+                foundationIdentityTitle(foundationIdentity)
               }
             />
           ) : undefined

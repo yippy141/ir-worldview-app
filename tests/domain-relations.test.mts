@@ -148,10 +148,12 @@ test("an expert-reviewed bridge citing existing Security HOLD files is still non
     ),
     /HOLD for implementation/u,
   )
-  assert.deepEqual(validateDomainModuleManifest(manifest), {
-    ok: true,
-    issues: [],
-  })
+  const validation = validateDomainModuleManifest(manifest)
+  assert.equal(validation.ok, false)
+  assert.deepEqual(!validation.ok && validation.issues.map(({ code, path }) => [code, path]), [
+    ["date.overdue", "releaseDecision.reviewDueAt"],
+    ["date.overdue", "bridges[0].versionContext.reviewDueAt"],
+  ])
   assert.equal(isDomainBridgePubliclyEligible(manifest, bridge), false)
   assert.deepEqual(getPublishedDomainBridges(manifest), [])
   assert.deepEqual(

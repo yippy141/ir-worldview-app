@@ -1,3 +1,5 @@
+import { ZH_TRADITION_NOUN_LABELS } from "@/lib/worldview-config"
+
 export const zhHansWorldviewMapUi = {
   page: {
     title: "世界观地图",
@@ -96,12 +98,7 @@ export const zhHansWorldviewMapUi = {
     top: "观念、规范与正当性",
     bottom: "物质与经济结构",
   },
-  familyAnchors: {
-    realist: "战略现实主义",
-    institutionalist: "自由制度主义",
-    constructivist: "社会建构主义",
-    criticalPoliticalEconomy: "批判政治经济学",
-  },
+  familyAnchors: ZH_TRADITION_NOUN_LABELS,
   key: {
     myBaseline: "我的基线",
     perspectiveShift: "我的情境变化",

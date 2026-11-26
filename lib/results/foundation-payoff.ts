@@ -1,5 +1,4 @@
-import { lensFromFamily, postureFromStrategyModifier } from "@/lib/archetypes"
-import { buildFoundationHero, buildFoundationInterpretation } from "@/lib/results/foundation-interpretation"
+import { buildFoundationInterpretation } from "@/lib/results/foundation-interpretation"
 import type { ResultInterpretation } from "@/lib/results/interpretation"
 import type {
   DimensionKey,
@@ -131,7 +130,6 @@ export function buildFoundationPayoff(input: FoundationPayoffInput): FoundationP
   const tensionKey = selectTension(input, primaryDimension)
 
   const interpretation = buildFoundationInterpretation(input.dimensionScores)
-  interpretation.summary = buildFoundationHero(input.dimensionScores, `${lensFromFamily(input.familyKey)}${postureFromStrategyModifier(input.strategyModifier, input.dimensionScores.restraint)}`)
   return {
     interpretation,
     corePattern: {
@@ -317,10 +315,10 @@ function buildNextStep(tensionKey: TensionKey): FoundationPayoff["nextStep"] {
 
   if (tensionKey === "rules-leverage" || tensionKey === "dependence-diplomacy") {
     return {
-      href: "/modules/technology",
-      label: "Read the Technology domain",
+      href: "/decisions/who-gets-access",
+      label: "Choose who gets access to an AI model",
       reason:
-        "Technology cases make dependence and enforcement tradeoffs concrete.",
+        "Choose how a research institute shares a model, then reconsider who gets to inspect it.",
     }
   }
 
@@ -334,9 +332,9 @@ function buildNextStep(tensionKey: TensionKey): FoundationPayoff["nextStep"] {
   }
 
   return {
-    href: "/modules/security",
-    label: "Read the Security domain",
+    href: "/decisions/who-gets-to-verify",
+    label: "Decide who verifies an AI agreement",
     reason:
-      "Security cases make the tradeoff between rivalry and restraint concrete.",
+      "Advise a cabinet on inspections when one country can see more than its partner.",
   }
 }

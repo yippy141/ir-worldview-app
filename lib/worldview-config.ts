@@ -28,6 +28,14 @@ export const TRADITION_NOUN_LABELS = {
 
 // Canonical URL slugs for /explore/[slug] pages.
 // These must match the slugs defined in lib/explore-content.ts exploreFamilies.
+export const ZH_TRADITION_NOUN_LABELS = {
+  realist: "战略现实主义",
+  institutionalist: "自由制度主义",
+  constructivist: "社会建构主义",
+  criticalPoliticalEconomy: "批判政治经济学",
+} as const satisfies Readonly<Record<FamilyKey, string>>
+
+// Canonical URL slugs for /explore/[slug] pages.
 export const FAMILY_SLUGS: Record<FamilyKey, string> = {
   realist: "realism",
   institutionalist: "institutionalism",

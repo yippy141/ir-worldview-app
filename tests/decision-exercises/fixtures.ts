@@ -1,6 +1,7 @@
 /** Deterministic synthetic fixtures for browser verification. Never imported by production. */
 import { getFoundationResultQuestions } from "@/lib/quiz-schema"
-import { generateResult } from "@/lib/scoring"
+import { generateResult, getV2ScoringCalibration } from "@/lib/scoring"
+import { classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
 import { buildFoundationSharePayload, encodePayload, resolveFoundationPayload } from "@/lib/share"
 import { resolveArchetype } from "@/lib/archetypes"
 import { getCurrentAiGovernanceVersion } from "@/lib/ai-governance-versions"
@@ -19,17 +20,27 @@ export function syntheticAnswers(seed: number, questionSet: "core" | "baselineEx
       : question.options[primary].id]
   }))
 }
+const mixedEconomicRatings = [5, 6, 7, 6, 6, 3, 5, 3, 7, 2, 6, 6, 2, 5]
+export const mixedEconomicAnswers: Answers = Object.fromEntries(
+  getFoundationResultQuestions("core").map((question, index) => [question.id, mixedEconomicRatings[index]]),
+)
+
 export function resultFixtures() {
   const foundation: Record<string, { payload: string; name: string; code: string; answers: Answers; low: boolean }> = {}
+  const threshold = getV2ScoringCalibration("core").lowDifferentiationThreshold
   for (let seed = 1; seed <= 4000; seed++) {
     const answers = syntheticAnswers(seed, "core")
     const raw = generateResult(answers, "analyst", "core")
+    // The gallery covers signed marks. Flat, midpoint and multiway-tied results have separate fixtures.
+    const presentation = classifyFoundationPresentation(raw, threshold)
+    if (!presentation.showArchetype || presentation.midpointFamilies.length) continue
     const payload = encodePayload(buildFoundationSharePayload(raw, "en", "core"))
     const resolved = resolveFoundationPayload(payload)!
-    const archetype = resolveArchetype(resolved.result)
-    if (!foundation[archetype.code]) foundation[archetype.code] = { payload, name: archetype.name, code: archetype.code, answers, low: resolved.result.nearestFitGap < .3675 }
+    const archetype = resolveArchetype(resolved.result, threshold)
+    if (!foundation[archetype.code]) foundation[archetype.code] = { payload, name: archetype.name, code: archetype.code, answers, low: resolved.result.nearestFitGap < threshold }
     if (Object.keys(foundation).length >= 20) break
   }
+  if (Object.keys(foundation).length !== 20) throw new Error("Expected signed examples for all eight pure and twelve blended marks.")
   const ai = getCurrentAiGovernanceVersion()
   const governance: Record<string, { payload: string; name: string }> = {}
   for (let seed = 1; seed <= 4000; seed++) {

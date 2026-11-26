@@ -80,7 +80,7 @@ export function buildFoundationContributionCopy(
     // Every term is zero. The rows say nothing about where the answers sat.
     return {
       state: "no-advantage",
-      lead: "These dimension terms give neither reading an advantage.",
+      lead: "These dimension terms give neither interpretation an advantage.",
       unavailableNote: null,
     }
   }

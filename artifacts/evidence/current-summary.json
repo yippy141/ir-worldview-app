@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1095,
-      "newCount": 706,
+      "currentCount": 1091,
+      "newCount": 707,
       "newFindings": [
         {
           "audience": "public",
@@ -25,16 +25,6 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "The best leverage comes from negotiating with peers that face the same terms rather than one by one."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.2",
-          "count": 1,
-          "file": "lib/results/foundation-interpretation.ts",
-          "fingerprint": "024a76ec2a68894eea7589e90824bd96bb7564b24d2a029e36029f14a2f39fd8",
-          "matched": "the normative position",
-          "rule": "repeated-adjacent-opening",
-          "source": "The normative position gives order and sovereignty priority over attempts to impose justice from outside."
         },
         {
           "audience": "frozen",
@@ -497,16 +487,6 @@
           "source": "Conduct highly selective CCG inspections with announced expiry dates and heavy PLA overwatch, keeping daily encounters in a law-enforcement frame. Accepted cost: Selectivity reduces economic pressure and may be circumvented."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.lead",
-          "count": 1,
-          "file": "lib/results/foundation-result-heading.ts",
-          "fingerprint": "133c54589db6204d1d7254e2edf6f3f2717c2a0e081dc2ac055478df61d8322b",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "The lead is clearer within the current item set. ... remains the nearest alternative. This is a model result. It does not establish a durable trait."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.3.options.2.label",
           "count": 1,
@@ -735,16 +715,6 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .gloss is required."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.restraint.2",
-          "count": 1,
-          "file": "lib/results/foundation-interpretation.ts",
-          "fingerprint": "193c7c51f3dcbcebc269f647d54ab362b6583cc764def48797354158114900e7",
-          "matched": "the strategic position",
-          "rule": "repeated-adjacent-opening",
-          "source": "The strategic position leans toward setting limits on pressure and avoiding overextension."
         },
         {
           "audience": "frozen",
@@ -1005,6 +975,16 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Keep ports open, subsidize insurance and rerouting, and document interference without initially ordering force against inspectors. Accepted cost: Some vessels may still comply with PRC instructions, allowing the regime to operate visibly."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/perspectives/result-helpers.ts#buildPerspectiveResultCopy.summary",
+          "count": 1,
+          "file": "lib/perspectives/result-helpers.ts",
+          "fingerprint": "215593162b20a7cdd0b0bc5cb36bc2511293be73066e248a2aafae3eb8336d59",
+          "matched": "in these cases",
+          "rule": "repeated-adjacent-opening",
+          "source": "In these cases your recommendations leaned toward ... ."
         },
         {
           "audience": "frozen",
@@ -1487,6 +1467,16 @@
           "source": "As capabilities rise, controlled access and staged release are usually more defensible than open diffusion."
         },
         {
+          "audience": "public",
+          "context": "route:/modules#metadata.description",
+          "count": 1,
+          "file": "app/modules/page.tsx",
+          "fingerprint": "32638cfa0eb0197b500d20ff3f14750777cd6664565a3003b0e35a8a69b41b37",
+          "matched": "security and technology",
+          "rule": "repeated-adjacent-opening",
+          "source": "Security and Technology questionnaire status and access to saved results."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v3.json#items.7.prompt",
           "count": 1,
@@ -1925,6 +1915,16 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "You think the hardest AI problems are fundamentally transnational and that durable legitimacy comes from coordination, shared standards, and institutions that can outlast one country's advantage."
+        },
+        {
+          "audience": "public",
+          "context": "route:/method#limitations.4.body",
+          "count": 1,
+          "file": "app/method/page.tsx",
+          "fingerprint": "4112c2fc17430a57b482b276e74bdd3dcf335b54f0c53042c15cac50460bf4cf",
+          "matched": "focus areas are",
+          "rule": "repeated-adjacent-opening",
+          "source": "Focus Areas are meant to surface domain-specific instinct, not to masquerade as extra scientific precision. Their readouts are kept separate from the Foundation result."
         },
         {
           "audience": "public",
@@ -2658,6 +2658,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.eyebrow",
+          "count": 1,
+          "file": "lib/results/foundation-result-heading.ts",
+          "fingerprint": "5ae7bce9139279068df910c387a3c86059c1cce67b874c890aa35e6c763db2c2",
+          "matched": "foundation result from",
+          "rule": "repeated-adjacent-opening",
+          "source": "Foundation result from the ..."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/reference-profiles/catalog.ts#REFERENCE_PROFILE_CATALOG.profiles.2.disputes.2",
           "count": 1,
           "file": "lib/reference-profiles/catalog.ts",
@@ -2895,16 +2905,6 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "Use relief, sanctions, evidence preservation, and negotiations while seeking a mandate or regional agreement before military action. Accepted cost: Civilians may remain exposed while durable authority is unavailable."
-        },
-        {
-          "audience": "public",
-          "context": "route:/method#MethodPage.p",
-          "count": 1,
-          "file": "app/method/page.tsx",
-          "fingerprint": "62765fed3dc2f1c16147e0e5a2dee00cf9eafc81603a5b00b4dbb89bb93d7788",
-          "matched": "often",
-          "rule": "general-prevalence-language-review",
-          "source": "Results changed more often near family boundaries and the boundary between a single-family and blended reading. The correlated synthetic and canonical ensembles changed less often when their starting results were farther from those boundaries."
         },
         {
           "audience": "frozen",
@@ -3498,16 +3498,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.restraint.1",
-          "count": 1,
-          "file": "lib/results/foundation-interpretation.ts",
-          "fingerprint": "789cce64a8e85514ebb23072bd70370add0b25a53c151f4278d0faa091dc6031",
-          "matched": "the strategic position",
-          "rule": "repeated-adjacent-opening",
-          "source": "The strategic position leaves the boundary between applying pressure and setting limits unresolved."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/ai-governance-glossary.ts#aiGlossary.7.definition",
           "count": 1,
           "file": "lib/ai-governance-glossary.ts",
@@ -3958,16 +3948,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.1",
-          "count": 1,
-          "file": "lib/results/foundation-interpretation.ts",
-          "fingerprint": "877707dde10a27ea87a2b96be01ef87e7cfca94b206c05935071bdc2fefdb932",
-          "matched": "the normative position",
-          "rule": "repeated-adjacent-opening",
-          "source": "The normative position leaves the threshold for overriding established order unresolved."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/ai-governance-cross-module-synthesis.ts#FAMILY_TENSION_SIGNALS.institutionalist",
           "count": 1,
           "file": "lib/ai-governance-cross-module-synthesis.ts",
@@ -4115,6 +4095,16 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Create a shared coast-guard picture, coordinated legal filings, and a regional diplomatic contact group. Accepted cost: The response is slower and uneven and may not stop coercion at sea in the near term."
+        },
+        {
+          "audience": "public",
+          "context": "route:/method#limitations.0.body",
+          "count": 1,
+          "file": "app/method/page.tsx",
+          "fingerprint": "8fa3176318d6ae12bfb61a285414d4133aef2e95b96e40d62271b6a76abd7372",
+          "matched": "rather than",
+          "rule": "rather-than-reflex",
+          "source": "The extended ceasefire item places immediate harm reduction and accountability at different points on Order and justice. Whether that contrast consistently measures justice versus order, rather than short-term settlement versus long-term accountability, remains unresolved. Current scoring and issued links are preserved; any correction requires a versioned item review and recalibration, not a silent weight change."
         },
         {
           "audience": "frozen",
@@ -5267,6 +5257,16 @@
           "source": "Controls become easier to defend when they are narrow, public, and coordinated rather than sprawling and improvised."
         },
         {
+          "audience": "public",
+          "context": "route:/method#MethodPage.p",
+          "count": 1,
+          "file": "app/method/page.tsx",
+          "fingerprint": "bb2d45cc33fe51be97371afbc6cea19b9040c762cb67967c5aad4627b321257e",
+          "matched": "often",
+          "rule": "general-prevalence-language-review",
+          "source": "Results changed more often near family boundaries and the boundary between a single-family and blended interpretation. The correlated synthetic and canonical ensembles changed less often when their starting results were farther from those boundaries."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.instincts.2",
           "count": 1,
@@ -6257,6 +6257,16 @@
           "source": "Begin escorted deliveries under defensive rules, a fixed route, and an initial review after 72 hours. Accepted cost: Escorts may exchange fire and turn a relief mission into a wider confrontation."
         },
         {
+          "audience": "public",
+          "context": "content-key:components/quiz-app.tsx#englishFoundationQuizUi.choiceInstructions.actorLens",
+          "count": 1,
+          "file": "components/quiz-app.tsx",
+          "fingerprint": "dfce00dd67290b034ea6c15504fc050833861aedd8ab2a6cc74268b5232ae102",
+          "matched": "What matters most",
+          "rule": "what-matters-most-template",
+          "source": "What matters most to the actor named in the question?"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v3.json#items.1.prompt",
           "count": 1,
@@ -6365,16 +6375,6 @@
           "matched": "Maps, layers",
           "rule": "repeated-abstract-map-language",
           "source": "Maps and public-position records are editorial reference layers. Their construction, support, and limits remain visible rather than borrowing certainty from the scoring system."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:content/current-cases/us-brazil-section-301-tariffs.json#briefing",
-          "count": 1,
-          "file": "content/current-cases/us-brazil-section-301-tariffs.json",
-          "fingerprint": "e5014e6049132c545d99d8833f6eeb4b6efa06562fb67f441dba754256204d1f",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "On 15–16 July 2026, the United States escalated a yearlong Section 301 investigation into Brazil by unveiling a new 25% tariff package on selected Brazilian imports, to take effect on 22 July. USTR’s formal case ties the action to digital trade, electronic payments, preferential tariffs, anti-corruption enforcement, intellectual property, ethanol market access, and illegal deforestation. Reuters and AP reporting indicate that the tariff package is substantial but selective: key exports such as beef, coffee, and aircraft-related items are exempt, while a broad range of other products, including ethanol, sugar, machinery, and furniture, are affected. The timing matters. The administration is rebuilding tariff leverage after a legal defeat over broader emergency tariffs, and Brookings notes that Section 301 offers a narrower but more judicially durable route. Brazil has rejected the move as unjust and politically motivated, signalled possible retaliation under its reciprocity law, and reportedly considered measures such as limiting U.S. audiovisual operations or suspending some patents while avoiding across-the-board import tariffs that would hit Brazilian consumers directly. At the same time, Brazil has been expanding emergency financing support through the BNDES-backed Plano Brasil Soberano. Brazil must decide whether calibrated retaliation, negotiation, coalition-building, or diversification can contain the pressure without raising costs at home or validating Washington’s method. Brazil’s response must balance domestic costs, bargaining credibility, and the wider precedent created by selective Section 301 pressure. A narrow countermeasure could impose political costs with limited inflation at home. Cushioning, negotiation, or multilateral action would each preserve different forms of flexibility while accepting slower or less visible relief."
         },
         {
           "audience": "frozen",
@@ -6695,6 +6695,16 @@
           "matched": "genuinely",
           "rule": "retired-house-words",
           "source": "You see political economy as primary. Your runner-up score reflects some belief that institutions, if genuinely reformed, could matter. The question your profile leaves open is whether that reform is realistic."
+        },
+        {
+          "audience": "public",
+          "context": "route:/privacy#PrivacyPage.p",
+          "count": 1,
+          "file": "app/privacy/page.tsx",
+          "fingerprint": "f368ecda2e532dfe7820aaf58494ec081fa31cfa553b71bd21a4654a1d69e7fe",
+          "matched": "device class, referrer category, and broad return-age bucket / free text, custom timestamps, and app-owned persistent IP records are excluded",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "Full URLs, result payloads, answer IDs, confidence, reasoning tags, profile families, saved-result flags, dimension scores, email, free text, custom timestamps, and app-owned persistent IP records are excluded. Referrer URLs are reduced to categories in the browser. The site receives ordinary connection information when your browser contacts it. When the site reports an event to Vercel Web Analytics, it leaves out the incoming IP, cookies, browser identification and referrer."
         },
         {
           "audience": "frozen",
@@ -7068,7 +7078,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 169,
+      "resolvedCount": 174,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7188,6 +7198,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "27cae3520d9c15e8c3e285dfdc92d56854c66107b724f6d24d17ec4fd2030932"
+        },
+        {
+          "count": 1,
           "fingerprint": "2a9b110780e68eae1a807b32b4e09410068d1906e7253888ddf447296e1f1891"
         },
         {
@@ -7241,6 +7255,10 @@
         {
           "count": 1,
           "fingerprint": "3be1360958707b00f2f206985d48ef2d910ff3a17f53bd695245648a26006ac3"
+        },
+        {
+          "count": 1,
+          "fingerprint": "3db213daf24bc4319f6a4b20b7ff71da175664d2412391392e6fe6c082d99785"
         },
         {
           "count": 1,
@@ -7321,6 +7339,10 @@
         {
           "count": 1,
           "fingerprint": "64faaa59ced980a6eb3c9dd98414404d29103d0e5f69a26041faab21d590fc29"
+        },
+        {
+          "count": 1,
+          "fingerprint": "67fc257d1736cd689b8d5ccfcd0b2bce13d04c9ae429496124da50d1759030cd"
         },
         {
           "count": 1,
@@ -7516,6 +7538,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "a98e9021f997fb8899cf8cf6f9337285a9497cea14b4af130ee792c02d075030"
+        },
+        {
+          "count": 1,
           "fingerprint": "aaa4bd953e6a02c970765beaaf2f6988e490d689c0e1298f9caa630e0e9c1de3"
         },
         {
@@ -7557,6 +7583,10 @@
         {
           "count": 1,
           "fingerprint": "b76e2e7802e11a7a08a36cdd88a93f0efb9c661ec87bdb1b5ebf694df5c909a4"
+        },
+        {
+          "count": 1,
+          "fingerprint": "bb15477f18fcd40e13fa19f4fadbbe2dfc219ffb8df5e122ae3e227b91960d73"
         },
         {
           "count": 1,
@@ -7747,7 +7777,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 389
+      "unchangedCount": 384
     },
     "higherPriorityFindings": [
       {
@@ -8017,14 +8047,14 @@
       {
         "action": "Describe current behavior; keep release history in engineering or decision records.",
         "audience": "operational",
-        "contentKey": "validateModuleAuthoringRecord",
-        "context": "content-key:lib/modules/authoring-validation.ts#validateModuleAuthoringRecord",
-        "copyKey": "validateModuleAuthoringRecord",
+        "contentKey": "validateRegistration",
+        "context": "content-key:lib/modules/authoring-validation.ts#validateRegistration",
+        "copyKey": "validateRegistration",
         "file": "lib/modules/authoring-validation.ts",
         "jsonPath": null,
-        "key": "validateModuleAuthoringRecord",
+        "key": "validateRegistration",
         "kind": "release",
-        "line": 751,
+        "line": 770,
         "match": "beta",
         "matched": "beta",
         "priority": "P0",
@@ -8171,14 +8201,14 @@
       {
         "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
         "audience": "public",
-        "contentKey": "limitations.3.body",
-        "context": "route:/method#limitations.3.body",
-        "copyKey": "limitations.3.body",
+        "contentKey": "limitations.4.body",
+        "context": "route:/method#limitations.4.body",
+        "copyKey": "limitations.4.body",
         "file": "app/method/page.tsx",
         "jsonPath": null,
-        "key": "limitations.3.body",
+        "key": "limitations.4.body",
         "kind": "self-narration",
-        "line": 109,
+        "line": 113,
         "match": "kept separate",
         "matched": "kept separate",
         "priority": "P1",
@@ -8200,7 +8230,7 @@
         "jsonPath": null,
         "key": "MethodPage.h3",
         "kind": "self-narration",
-        "line": 245,
+        "line": 249,
         "match": "stay separate",
         "matched": "stay separate",
         "priority": "P1",
@@ -8222,7 +8252,7 @@
         "jsonPath": null,
         "key": "MethodPage.p",
         "kind": "self-narration",
-        "line": 417,
+        "line": 421,
         "match": "the live scorer",
         "matched": "the live scorer",
         "priority": "P1",
@@ -8244,7 +8274,7 @@
         "jsonPath": null,
         "key": "PrivacyPage.p",
         "kind": "self-narration",
-        "line": 93,
+        "line": 94,
         "match": "saved layers",
         "matched": "saved layers",
         "priority": "P1",
@@ -8310,7 +8340,7 @@
         "jsonPath": null,
         "key": "ModuleApp.p",
         "kind": "self-narration",
-        "line": 482,
+        "line": 455,
         "match": "What it does not claim",
         "matched": "What it does not claim",
         "priority": "P1",
@@ -8376,7 +8406,7 @@
         "jsonPath": null,
         "key": "enCopy.unavailable.tuple-mismatch",
         "kind": "self-narration",
-        "line": 155,
+        "line": 165,
         "match": "tuple",
         "matched": "tuple",
         "priority": "P1",
@@ -10789,116 +10819,6 @@
       {
         "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
         "audience": "public",
-        "contentKey": "buildFoundationResultHeading.title",
-        "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title",
-        "copyKey": "buildFoundationResultHeading.title",
-        "file": "lib/results/foundation-result-heading.ts",
-        "jsonPath": null,
-        "key": "buildFoundationResultHeading.title",
-        "kind": "self-narration",
-        "line": 31,
-        "match": "Foundation read",
-        "matched": "Foundation read",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "Registered legacy Foundation read: …",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
-        "contentKey": "buildFoundationResultHeading.lead",
-        "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.lead",
-        "copyKey": "buildFoundationResultHeading.lead",
-        "file": "lib/results/foundation-result-heading.ts",
-        "jsonPath": null,
-        "key": "buildFoundationResultHeading.lead",
-        "kind": "self-narration",
-        "line": 33,
-        "match": "tuple",
-        "matched": "tuple",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "This link preserves its issued reading. Its exact completed-form tuple is unavailable, so this page does not reconstruct calibrated contribution claims from the score summary.",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
-        "contentKey": "buildFoundationResultHeading.eyebrow",
-        "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.eyebrow",
-        "copyKey": "buildFoundationResultHeading.eyebrow",
-        "file": "lib/results/foundation-result-heading.ts",
-        "jsonPath": null,
-        "key": "buildFoundationResultHeading.eyebrow",
-        "kind": "self-narration",
-        "line": 39,
-        "match": "Foundation read",
-        "matched": "Foundation read",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "Initial Foundation read from the …",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
-        "contentKey": "buildFoundationResultHeading.title",
-        "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title",
-        "copyKey": "buildFoundationResultHeading.title",
-        "file": "lib/results/foundation-result-heading.ts",
-        "jsonPath": null,
-        "key": "buildFoundationResultHeading.title",
-        "kind": "self-narration",
-        "line": 40,
-        "match": "Foundation read",
-        "matched": "Foundation read",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "An initial Foundation read: … and …",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
-        "contentKey": "buildFoundationResultHeading.title",
-        "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title",
-        "copyKey": "buildFoundationResultHeading.title",
-        "file": "lib/results/foundation-result-heading.ts",
-        "jsonPath": null,
-        "key": "buildFoundationResultHeading.title",
-        "kind": "self-narration",
-        "line": 57,
-        "match": "Foundation read",
-        "matched": "Foundation read",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "… leads this Foundation read",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
         "contentKey": "assertPayloadMatchesGeneration",
         "context": "content-key:lib/results/local-evidence.ts#assertPayloadMatchesGeneration",
         "copyKey": "assertPayloadMatchesGeneration",
@@ -10947,11 +10867,11 @@
         "priority": "P0"
       },
       {
-        "count": 128,
+        "count": 123,
         "priority": "P1"
       },
       {
-        "count": 1095,
+        "count": 1091,
         "priority": "P2"
       }
     ]
@@ -84758,7 +84678,7 @@
     {
       "category": "scoring-runtime",
       "path": "lib/modules/versions.ts",
-      "sha256": "056ac23d6dfc3777298847cd601d2acf97661dee5a40c94e1e4095c033bbda34"
+      "sha256": "55e9ec8b5d06581c2a2353719911b829395a0228ae1233ddef037558e2f69b0c"
     },
     {
       "category": "scoring-runtime",
@@ -84803,7 +84723,7 @@
     {
       "category": "calibration",
       "path": "scripts/calibrate-modules.mts",
-      "sha256": "b34af8e105f72017c7a35310c3b0b45781b8a1e261f679e9c41d276a815aa640"
+      "sha256": "2a214f2cb0b54b08a547209aed1a14c2613c5aa752790260732fbe56d325fc3d"
     },
     {
       "category": "calibration",
